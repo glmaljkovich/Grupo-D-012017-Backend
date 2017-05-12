@@ -1,0 +1,31 @@
+{
+  "name": "yopping",
+  "version": "1.0.0",
+  "description": "Una aplicacion de compras",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glmaljkovich/Grupo-D-012017-Backend.git"
+  },
+  "keywords": [
+    "shopping",
+    "vue"
+  ],
+  "author": "@glmaljkovich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glmaljkovich/Grupo-D-012017-Backend/issues"
+  },
+  "homepage": "https://github.com/glmaljkovich/Grupo-D-012017-Backend#readme",
+  "devDependencies": {
+    "webpack": "^2.5.1"
+  },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "vue-router": "^2.5.3"
+  }
+}
