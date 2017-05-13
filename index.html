@@ -10,74 +10,46 @@
   </head>
 
   <body>
-    <!-- Top Bar -->
-    <div class="top-bar">
-      <div class="top-bar-title">
-        <button type="button" class="menu-icon hide-for-medium" data-toggle="offCanvas"></button>
-        <strong>Yopping</strong>
+    <div id="app">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="top-bar-title">
+          <button type="button" class="menu-icon hide-for-medium" data-toggle="offCanvas"></button>
+          <strong>Yopping</strong>
+        </div>
       </div>
-    </div>
-    <button type="button" name="button" class="fab">+</button>
-    <!-- Wrapper -->
-    <div class="off-canvas-wrapper">
-      <!-- Left Panel -->
-      <div class="off-canvas-absolute position-left reveal-for-medium" id="offCanvas" data-off-canvas data-transition="overlap">
-        <button class="close-button" aria-label="Close menu" type="button" data-close>
-          <span aria-hidden="true">&times;</span>
-        </button>
-          <div class="text-center">
-            <br>
-            <h1><i class="fa fa-user-circle" aria-hidden="true"></i></h1>
-            <h4>@Username</h4>
-          </div>
-              <ul class="menu vertical">
-                <li><a href="#" class="selected"><i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas</a></li>
-                <li><a href="#"><i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial</a></li>
-                <li><button type="button" name="button" class="button alert float-center"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button></li>
-              </ul>
-      </div>
-      <!-- Content -->
-      <div class="off-canvas-content" data-off-canvas-content>
-        <div class="content">
-          <div class="row">
-            <h4 class="title">My Shopping Lists</h4>
-          </div>
-          <div class="row">
-            <!-- Shopping List -->
-            <div class="small-12 medium-4 columns shoppinglist">
-              <div class="small-2 float-left">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                </span>
-              </div>
-              <div class="small-10 float-left">
-                <h5>Picada con Amigos</h5>
-                <p>12 products</p>
-              </div>
+      <button type="button" name="button" class="fab">+</button>
+      <!-- Wrapper -->
+      <div class="off-canvas-wrapper">
+        <!-- Left Panel -->
+        <div class="off-canvas-absolute position-left reveal-for-medium" id="offCanvas" data-off-canvas data-transition="overlap">
+          <button class="close-button" aria-label="Close menu" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <!-- User Detail -->
+          <user-detail v-if="user" :user="user" v-on:logout="logout"></user-detail>
+          <!-- Login Form -->
+          <login-form v-else v-on:login="login"></login-form>
+        </div>
+        <!-- Content -->
+        <div class="off-canvas-content" data-off-canvas-content>
+          <div class="content" v-if="user">
+            <div class="small-12 columns">
+              <h4 class="title">My Shopping Lists</h4>
             </div>
-            <div class="small-12 medium-4 columns shoppinglist">
-              <div class="small-2 float-left">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                </span>
-              </div>
-              <div class="small-10 float-left">
-                <h5>Semana Santa</h5>
-                <p>24 products</p>
-              </div>
+            <div class="row">
+              <!-- Shopping List -->
+              <card v-for="list in lists" :shoppinglist="list"></card>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
     <script src="js/vue.js" charset="utf-8"></script>
     <script src="js/vue-router.js" charset="utf-8"></script>
     <script src="js/jquery.js" charset="utf-8"></script>
     <script src="js/foundation.min.js" charset="utf-8"></script>
-    <script src="js/app.js" charset="utf-8"></script>
+    <script src="js/bundle.js" charset="utf-8"></script>
   </body>
 </html>
