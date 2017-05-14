@@ -11,7 +11,7 @@ Vue.component('card', {
       </div>
       <div>
         <h5>{{shoppinglist.name}}</h5>
-        <p>{{shoppinglist.list.length}} products</p>
+        <p>{{shoppinglist.items.length}} products</p>
       </div>
     </div>
   </div>`,

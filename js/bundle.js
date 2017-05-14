@@ -971,11 +971,17 @@ let AppComponent = Vue.extend({
       user: null,
       sessionService: new SessionService(),
       error: null,
-      lists: [
-        {name: "Picada con amigos", list: [1,1,1,1,1,1,1,1,1,1,1,1]},
-        {name: "Semana Santa", list: [1,1,1,1,1,1,1,1,1]}
-     ]
+      lists: []
     };
+  },
+  watch:{
+    user: function(user){
+      if(user === null){
+        this.lists = [];
+      } else {
+        this.getShoppingLists(user);
+      }
+    }
   },
   created: function(){
     if(this.sessionService.hasSession()){
@@ -1015,6 +1021,16 @@ let AppComponent = Vue.extend({
     },
     errorRead: function(){
       this.error = null;
+    },
+    getShoppingLists: function(user){
+      HTTP.get('shoppingList/' + user.username)
+      .then(response => {
+        this.lists = response.data;
+      })
+      .catch(error => {
+        console.log("ERROR");
+        this.error = error.response.data;
+      });
     }
   }
 });
@@ -1039,7 +1055,7 @@ Vue.component('card', {
       </div>
       <div>
         <h5>{{shoppinglist.name}}</h5>
-        <p>{{shoppinglist.list.length}} products</p>
+        <p>{{shoppinglist.items.length}} products</p>
       </div>
     </div>
   </div>`,
@@ -1246,7 +1262,7 @@ __webpack_require__(12);
 __webpack_require__(11);
 
 
-let app = new AppComponent();
+var app = new AppComponent();
 app.$mount('#app');
 
 $(document).foundation();
