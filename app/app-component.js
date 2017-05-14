@@ -8,6 +8,7 @@ let AppComponent = Vue.extend({
     return {
       user: null,
       sessionService: new SessionService(),
+      error: null,
       lists: [
         {name: "Picada con amigos", list: [1,1,1,1,1,1,1,1,1,1,1,1]},
         {name: "Semana Santa", list: [1,1,1,1,1,1,1,1,1]}
@@ -30,14 +31,28 @@ let AppComponent = Vue.extend({
         this.sessionService.saveSession(user.username, user.token);
         this.user = user;
       })
-      .catch(e => {
-        console.log(e);
+      .catch(error => {
+        this.error = error.response.data;
       });
 
     },
     logout: function(){
       this.user = null;
       this.sessionService.closeSession();
+    },
+    register: function(register){
+      HTTP.post(`user`, register)
+      .then(token => {
+        let user = new User(register.username, token);
+        this.sessionService.saveSession(user.username, user.token);
+        this.user = user;
+      })
+      .catch(error => {
+        this.error = error.response.data;
+      });
+    },
+    errorRead: function(){
+      this.error = null;
     }
   }
 });

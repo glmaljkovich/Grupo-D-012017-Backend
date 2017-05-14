@@ -22,14 +22,12 @@
       <!-- Wrapper -->
       <div class="off-canvas-wrapper">
         <!-- Left Panel -->
-        <div class="off-canvas-absolute position-left reveal-for-medium" id="offCanvas" data-off-canvas data-transition="overlap">
+        <div class="off-canvas position-left reveal-for-medium" id="offCanvas" data-off-canvas data-transition="overlap">
           <button class="close-button" aria-label="Close menu" type="button" data-close>
             <span aria-hidden="true">&times;</span>
           </button>
           <!-- User Detail -->
           <user-detail v-if="user" :user="user" v-on:logout="logout"></user-detail>
-          <!-- Login Form -->
-          <login-form v-else v-on:login="login"></login-form>
         </div>
         <!-- Content -->
         <div class="off-canvas-content" data-off-canvas-content>
@@ -42,13 +40,14 @@
               <card v-for="list in lists" :shoppinglist="list"></card>
             </div>
           </div>
+          <!-- Login Form -->
+          <login-form v-else v-on:login="login" v-on:register="register" :error="error" v-on:error-read="errorRead"></login-form>
         </div>
       </div>
     </div>
 
     <script src="js/vue.js" charset="utf-8"></script>
     <script src="js/vue-router.js" charset="utf-8"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script> -->
     <script src="js/jquery.js" charset="utf-8"></script>
     <script src="js/foundation.min.js" charset="utf-8"></script>
     <script src="js/bundle.js" charset="utf-8"></script>

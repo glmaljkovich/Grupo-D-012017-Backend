@@ -3,4 +3,5 @@ let User = function(username, token){
   this.token = token;
 };
 
+
 module.exports = User;

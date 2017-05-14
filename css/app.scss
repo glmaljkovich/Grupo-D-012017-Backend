@@ -1,6 +1,7 @@
 $primary: lighten(darkred, 5);
 $text-color: #444;
 $background: #f0f0f0;
+$toolbar-height: 3.5rem;
 
 html, body{
   height: 100%;
@@ -14,12 +15,18 @@ html, body{
 
   .off-canvas-wrapper{
     flex: 1;
+    overflow-y: scroll;
   }
+
+}
+#offCanvas{
+  margin-top: $toolbar-height;
 }
 
 .top-bar{
   background-color: $primary;
   color: white;
+  height: $toolbar-height;
 }
 
 .menu {
@@ -86,4 +93,12 @@ button.fab{
   font-weight: bold;
   font-size: 1.5rem;
   box-shadow: 2px 2px 8px $text-color;
+  z-index: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
 }

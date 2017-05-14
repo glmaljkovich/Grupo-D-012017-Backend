@@ -7,11 +7,16 @@ html, body {
   flex-direction: column;
   height: 100%; }
   #app .off-canvas-wrapper {
-    flex: 1; }
+    flex: 1;
+    overflow-y: scroll; }
+
+#offCanvas {
+  margin-top: 3.5rem; }
 
 .top-bar {
   background-color: #a50000;
-  color: white; }
+  color: white;
+  height: 3.5rem; }
 
 .menu a {
   color: #a50000; }
@@ -58,6 +63,13 @@ button.fab {
   border-radius: 2rem;
   font-weight: bold;
   font-size: 1.5rem;
-  box-shadow: 2px 2px 8px #444; }
+  box-shadow: 2px 2px 8px #444;
+  z-index: 1; }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s; }
+
+.fade-enter, .fade-leave-to {
+  opacity: 0; }
 
 /*# sourceMappingURL=app.css.map */
