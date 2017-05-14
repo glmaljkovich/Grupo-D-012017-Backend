@@ -55,7 +55,7 @@ html, body{
 }
 
 label{
-  font-size: 0.4rem;
+  font-size: 12px;
   font-weight: bold;
   color: lighten($text-color, 10);
 
@@ -64,9 +64,9 @@ label{
   }
 }
 
-input {
-  border-radius: 10px!important;
-  height: 2rem!important;
+#app input {
+  border-radius: 10px;
+  height: 2rem;
 }
 
 .content{

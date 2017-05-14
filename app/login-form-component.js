@@ -1,13 +1,14 @@
+const User = require('./user.js');
 
 Vue.component('login-form', {
   template: `
   <div class="small-12 columns">
       <br>
       <label><span>username</span>
-        <input type="text" name="username" :value="username" @input="update">
+        <input type="text" name="username" v-model="username">
       </label>
       <label><span>password</span>
-        <input type="password" name="password" :value="password">
+        <input type="password" name="password" v-model="password">
       </label>
     <div class="text-center">
       <button type="button" class="button" @click="login">Logueate {{username}}</button>
@@ -25,12 +26,12 @@ Vue.component('login-form', {
       this.username = e.target.value;
     },
     login: function(){
-      let user = {
+      let login = {
         username: this.username,
-        pasword: this.password
+        password: this.password
       };
 
-      this.$emit("login", user);
+      this.$emit("login", login);
     }
   }
 });

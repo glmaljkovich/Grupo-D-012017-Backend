@@ -1,4 +1,6 @@
 const SessionService = require('./session-service.js');
+const HTTP = require('./http.js');
+const User = require('./user.js');
 
 let AppComponent = Vue.extend({
 
@@ -21,9 +23,17 @@ let AppComponent = Vue.extend({
 
   },
   methods: {
-    login: function(user){
-      this.user = user;
-      this.sessionService.saveSession(user.username, user.pasword);
+    login: function(login){
+      HTTP.post(`user/login`, login)
+      .then(token => {
+        let user = new User(login.username, token);
+        this.sessionService.saveSession(user.username, user.token);
+        this.user = user;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
     },
     logout: function(){
       this.user = null;
