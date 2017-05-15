@@ -18,7 +18,6 @@
           <strong>Yopping</strong>
         </div>
       </div>
-      <button type="button" name="button" class="fab">+</button>
       <!-- Wrapper -->
       <div class="off-canvas-wrapper">
         <!-- Left Panel -->
@@ -27,22 +26,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <!-- User Detail -->
-          <user-detail v-if="user" :user="user" v-on:logout="logout"></user-detail>
+          <user-detail v-if="state.user" :user="state.user" v-on:logout="logout"></user-detail>
         </div>
         <!-- Content -->
-        <div class="off-canvas-content" data-off-canvas-content>
-          <div class="content" v-if="user">
-            <div class="small-12 columns">
-              <h4 class="title">My Shopping Lists</h4>
-            </div>
-            <div>
-              <!-- Shopping List -->
-              <card v-for="list in lists" :shoppinglist="list"></card>
-            </div>
-          </div>
-          <!-- Login Form -->
-          <login-form v-else v-on:login="login" v-on:register="register" :error="error" v-on:error-read="errorRead"></login-form>
-        </div>
+      <router-view></router-view>
       </div>
     </div>
 

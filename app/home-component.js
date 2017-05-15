@@ -2,15 +2,25 @@ const SessionService = require('./session-service.js');
 const HTTP = require('./http.js');
 const User = require('./user.js');
 
-let AppComponent = Vue.extend({
-
+let HomeComponent = Vue.component('home',{
+  template:`
+  <div class="off-canvas-content" data-off-canvas-content>
+    <div class="content" v-if="user">
+      <div class="small-12 columns">
+        <h4 class="title">My Shopping Lists</h4>
+      </div>
+      <div>
+        <!-- Shopping List -->
+        <card v-for="list in lists" :shoppinglist="list" v-on:open="open"></card>
+      </div>
+    </div>
+    <!-- Login Form -->
+    <login-form v-else v-on:login="login" v-on:register="register" :error="error" v-on:error-read="errorRead"></login-form>
+    <button type="button" name="button" class="fab">+</button>
+  </div>
+  `,
   data: function(){
-    return {
-      user: null,
-      sessionService: new SessionService(),
-      error: null,
-      lists: []
-    };
+    return this.$parent.state;
   },
   watch:{
     user: function(user){
@@ -26,9 +36,6 @@ let AppComponent = Vue.extend({
       this.user = this.sessionService.getSession();
     }
   },
-  mounted: function(){
-
-  },
   methods: {
     login: function(login){
       HTTP.post(`user/login`, login)
@@ -41,10 +48,6 @@ let AppComponent = Vue.extend({
         this.error = error.response.data;
       });
 
-    },
-    logout: function(){
-      this.user = null;
-      this.sessionService.closeSession();
     },
     register: function(register){
       HTTP.post(`user`, register)
@@ -69,8 +72,11 @@ let AppComponent = Vue.extend({
         console.log("ERROR");
         this.error = error.response.data;
       });
+    },
+    open: function(shoppingList){
+      this.shoppinglist = shoppingList;
     }
   }
 });
 
-module.exports = AppComponent;
+module.exports = HomeComponent;

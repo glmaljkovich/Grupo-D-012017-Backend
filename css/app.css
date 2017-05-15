@@ -37,6 +37,17 @@ html, body {
   .shoppinglist .icon {
     margin-right: 0.5rem; }
 
+.list {
+  font-weight: bold; }
+  .list p {
+    line-height: 1; }
+
+.img-rounded {
+  border-radius: 100%;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 1rem; }
+
 label {
   font-size: 12px;
   font-weight: bold;

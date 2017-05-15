@@ -2,7 +2,7 @@
 Vue.component('card', {
   template: `
   <div class="small-12 medium-4 columns  end">
-    <div class="shoppinglist">
+    <div class="shoppinglist" @click="open">
       <div class="float-left icon">
         <span class="fa-stack fa-lg">
           <i class="fa fa-circle fa-stack-2x"></i>
@@ -17,6 +17,9 @@ Vue.component('card', {
   </div>`,
   props:['shoppinglist'],
   methods: {
-
+    open: function(){
+      this.$emit('open', this.shoppinglist);
+      this.$router.push('shoppinglist/' + this.shoppinglist.name);
+    }
   }
 });

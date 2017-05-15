@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
-var bind = __webpack_require__(7);
+var bind = __webpack_require__(8);
 
 /*global toString:true*/
 
@@ -384,7 +384,7 @@ module.exports = {
   trim: trim
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38).Buffer))
 
 /***/ }),
 /* 1 */
@@ -407,7 +407,7 @@ module.exports = User;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(31);
+var normalizeHeaderName = __webpack_require__(34);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -423,10 +423,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(4);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(4);
   }
   return adapter;
 }
@@ -497,22 +497,53 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const User = __webpack_require__(1);
+
+let SessionService = function(){};
+
+SessionService.prototype.hasSession = function(){
+  return localStorage.getItem('y_username') !== null;
+};
+
+SessionService.prototype.saveSession = function(username, token){
+  localStorage.setItem("y_username", username);
+  localStorage.setItem("y_token", token);
+};
+
+/**
+* @return {User}
+*/
+SessionService.prototype.getSession = function(){
+  return new User(localStorage.getItem("y_username"), localStorage.getItem("y_token"));
+};
+
+SessionService.prototype.closeSession = function(){
+  localStorage.clear();
+};
+
+module.exports = SessionService;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(23);
-var buildURL = __webpack_require__(26);
-var parseHeaders = __webpack_require__(32);
-var isURLSameOrigin = __webpack_require__(30);
-var createError = __webpack_require__(6);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(25);
+var settle = __webpack_require__(26);
+var buildURL = __webpack_require__(29);
+var parseHeaders = __webpack_require__(35);
+var isURLSameOrigin = __webpack_require__(33);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -608,7 +639,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(28);
+      var cookies = __webpack_require__(31);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -684,10 +715,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -713,7 +744,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -725,13 +756,13 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(22);
+var enhanceError = __webpack_require__(25);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -749,7 +780,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -767,7 +798,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -957,88 +988,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const SessionService = __webpack_require__(14);
-const HTTP = __webpack_require__(13);
-const User = __webpack_require__(1);
-
-let AppComponent = Vue.extend({
-
-  data: function(){
-    return {
-      user: null,
-      sessionService: new SessionService(),
-      error: null,
-      lists: []
-    };
-  },
-  watch:{
-    user: function(user){
-      if(user === null){
-        this.lists = [];
-      } else {
-        this.getShoppingLists(user);
-      }
-    }
-  },
-  created: function(){
-    if(this.sessionService.hasSession()){
-      this.user = this.sessionService.getSession();
-    }
-  },
-  mounted: function(){
-
-  },
-  methods: {
-    login: function(login){
-      HTTP.post(`user/login`, login)
-      .then(token => {
-        let user = new User(login.username, token);
-        this.sessionService.saveSession(user.username, user.token);
-        this.user = user;
-      })
-      .catch(error => {
-        this.error = error.response.data;
-      });
-
-    },
-    logout: function(){
-      this.user = null;
-      this.sessionService.closeSession();
-    },
-    register: function(register){
-      HTTP.post(`user`, register)
-      .then(token => {
-        let user = new User(register.username, token);
-        this.sessionService.saveSession(user.username, user.token);
-        this.user = user;
-      })
-      .catch(error => {
-        this.error = error.response.data;
-      });
-    },
-    errorRead: function(){
-      this.error = null;
-    },
-    getShoppingLists: function(user){
-      HTTP.get('shoppingList/' + user.username)
-      .then(response => {
-        this.lists = response.data;
-      })
-      .catch(error => {
-        console.log("ERROR");
-        this.error = error.response.data;
-      });
-    }
-  }
-});
-
-module.exports = AppComponent;
-
-
-/***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
@@ -1046,7 +995,7 @@ module.exports = AppComponent;
 Vue.component('card', {
   template: `
   <div class="small-12 medium-4 columns  end">
-    <div class="shoppinglist">
+    <div class="shoppinglist" @click="open">
       <div class="float-left icon">
         <span class="fa-stack fa-lg">
           <i class="fa fa-circle fa-stack-2x"></i>
@@ -1061,13 +1010,56 @@ Vue.component('card', {
   </div>`,
   props:['shoppinglist'],
   methods: {
-
+    open: function(){
+      this.$emit('open', this.shoppinglist);
+      this.$router.push('shoppinglist/' + this.shoppinglist.name);
+    }
   }
 });
 
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports) {
+
+
+let ListItemComponent = Vue.component('list-item', {
+  template: `
+  <div class="small-12 large-6 end columns">
+    <div class="card list">
+      <div class="card-section">
+        <div class="small-3 columns">
+          <img src="http://placehold.it/200x200" class="img-rounded" alt="">
+        </div>
+        <div class="small-9  columns">
+          <div class="small-12 columns">
+            <h5>{{item.product.name}}</h5>
+          </div>
+          <div class="small-6 large-3 end columns">
+            <p class="subheader">UNIDAD</p>
+            <p>$ {{item.product.price.integer}}.{{item.product.price.decimal}}</p>
+          </div>
+          <div class="small-6 large-3 end columns">
+            <p class="subheader">CANTIDAD</p>
+            <input type="number" v-model="item.quantity">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`,
+  props: ['item'],
+  methods: {
+    open: function(){
+
+    }
+  }
+});
+
+module.exports = ListItemComponent;
+
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const User = __webpack_require__(1);
@@ -1167,7 +1159,46 @@ Vue.component('login-form', {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const SessionService = __webpack_require__(3);
+const HomeComponent = __webpack_require__(15);
+const ShoppingListComponent = __webpack_require__(17);
+var state = {
+  user: null,
+  sessionService: new SessionService(),
+  error: null,
+  lists: [],
+  shoppinglist: null
+};
+
+var router = new VueRouter({
+    base: 'http://localhost:80',
+    routes: [
+      {path: '/', component: HomeComponent},
+      {path: '/shoppinglist/:id', component: ShoppingListComponent}
+    ]
+});
+
+let RouterComponent = Vue.extend({
+  router,
+  data: function(){
+    return {state: state};
+  },
+  methods:{
+    logout: function(){
+      this.user = null;
+      this.sessionService.closeSession();
+    },
+  }
+});
+
+module.exports = RouterComponent;
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports) {
 
 
@@ -1200,15 +1231,102 @@ Vue.component('user-detail', {
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const axios = __webpack_require__(16);
+const SessionService = __webpack_require__(3);
+const HTTP = __webpack_require__(16);
+const User = __webpack_require__(1);
+
+let HomeComponent = Vue.component('home',{
+  template:`
+  <div class="off-canvas-content" data-off-canvas-content>
+    <div class="content" v-if="user">
+      <div class="small-12 columns">
+        <h4 class="title">My Shopping Lists</h4>
+      </div>
+      <div>
+        <!-- Shopping List -->
+        <card v-for="list in lists" :shoppinglist="list" v-on:open="open"></card>
+      </div>
+    </div>
+    <!-- Login Form -->
+    <login-form v-else v-on:login="login" v-on:register="register" :error="error" v-on:error-read="errorRead"></login-form>
+    <button type="button" name="button" class="fab">+</button>
+  </div>
+  `,
+  data: function(){
+    return this.$parent.state;
+  },
+  watch:{
+    user: function(user){
+      if(user === null){
+        this.lists = [];
+      } else {
+        this.getShoppingLists(user);
+      }
+    }
+  },
+  created: function(){
+    if(this.sessionService.hasSession()){
+      this.user = this.sessionService.getSession();
+    }
+  },
+  methods: {
+    login: function(login){
+      HTTP.post(`user/login`, login)
+      .then(token => {
+        let user = new User(login.username, token);
+        this.sessionService.saveSession(user.username, user.token);
+        this.user = user;
+      })
+      .catch(error => {
+        this.error = error.response.data;
+      });
+
+    },
+    register: function(register){
+      HTTP.post(`user`, register)
+      .then(token => {
+        let user = new User(register.username, token);
+        this.sessionService.saveSession(user.username, user.token);
+        this.user = user;
+      })
+      .catch(error => {
+        this.error = error.response.data;
+      });
+    },
+    errorRead: function(){
+      this.error = null;
+    },
+    getShoppingLists: function(user){
+      HTTP.get('shoppingList/' + user.username)
+      .then(response => {
+        this.lists = response.data;
+      })
+      .catch(error => {
+        console.log("ERROR");
+        this.error = error.response.data;
+      });
+    },
+    open: function(shoppingList){
+      this.shoppinglist = shoppingList;
+    }
+  }
+});
+
+module.exports = HomeComponent;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const axios = __webpack_require__(19);
 const HTTP = axios.create({
   baseURL: 'http://localhost:8080/',
   headers: {
-    'Content-Type': 'application/json',
-    'Origin': 'http://localhost:80'
+    'Content-Type': 'application/json'
   }
 });
 HTTP.defaults.headers.post.Origin = 'http://localhost:80';
@@ -1218,72 +1336,73 @@ module.exports = HTTP;
 
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 17 */
+/***/ (function(module, exports) {
 
-const User = __webpack_require__(1);
 
-let SessionService = function(){};
+let ShoppingListComponent = Vue.component('shoppinglist', {
+  template: `
+  <div class="off-canvas-content" data-off-canvas-content>
+    <div class="row content">
+      <div class="small-12 columns">
+        <h4 class="title"> <router-link to="/"><i class="fa fa-chevron-left" aria-hidden="true"></i></router-link> {{list.name}}</h4>
+      </div>
+      <list-item v-for="item in list.items" :item="item"></list-item>
+    </div>
+  </div>`,
+  data: function(){
+    return {
+      list: this.$parent.state.shoppinglist
+    };
+  },
+  methods: {
+    open: function(){
 
-SessionService.prototype.hasSession = function(){
-  return localStorage.getItem('y_username') !== null;
-};
+    }
+  }
+});
 
-SessionService.prototype.saveSession = function(username, token){
-  localStorage.setItem("y_username", username);
-  localStorage.setItem("y_token", token);
-};
-
-/**
-* @return {User}
-*/
-SessionService.prototype.getSession = function(){
-  return new User(localStorage.getItem("y_username"), localStorage.getItem("y_token"));
-};
-
-SessionService.prototype.closeSession = function(){
-  localStorage.clear();
-};
-
-module.exports = SessionService;
+module.exports = ShoppingListComponent;
 
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const AppComponent = __webpack_require__(9);
+const RouterComponent = __webpack_require__(13);
 // Vue.http.options.root = 'http://localhost:8080';
 // Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
 // Vue.http.headers.post['Content-Type'] = 'application/json';
 
 __webpack_require__(10);
+__webpack_require__(14);
 __webpack_require__(12);
 __webpack_require__(11);
 
 
-var app = new AppComponent();
+
+var app = new RouterComponent();
 app.$mount('#app');
 
 $(document).foundation();
 
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
+module.exports = __webpack_require__(20);
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(7);
-var Axios = __webpack_require__(19);
+var bind = __webpack_require__(8);
+var Axios = __webpack_require__(22);
 var defaults = __webpack_require__(2);
 
 /**
@@ -1317,15 +1436,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(4);
-axios.CancelToken = __webpack_require__(18);
-axios.isCancel = __webpack_require__(5);
+axios.Cancel = __webpack_require__(5);
+axios.CancelToken = __webpack_require__(21);
+axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(33);
+axios.spread = __webpack_require__(36);
 
 module.exports = axios;
 
@@ -1334,13 +1453,13 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(4);
+var Cancel = __webpack_require__(5);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1398,7 +1517,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1406,10 +1525,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(20);
-var dispatchRequest = __webpack_require__(21);
-var isAbsoluteURL = __webpack_require__(29);
-var combineURLs = __webpack_require__(27);
+var InterceptorManager = __webpack_require__(23);
+var dispatchRequest = __webpack_require__(24);
+var isAbsoluteURL = __webpack_require__(32);
+var combineURLs = __webpack_require__(30);
 
 /**
  * Create a new instance of Axios
@@ -1490,7 +1609,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1549,15 +1668,15 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(24);
-var isCancel = __webpack_require__(5);
+var transformData = __webpack_require__(27);
+var isCancel = __webpack_require__(6);
 var defaults = __webpack_require__(2);
 
 /**
@@ -1635,7 +1754,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1661,13 +1780,13 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1693,7 +1812,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1720,7 +1839,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1763,7 +1882,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1838,7 +1957,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1859,7 +1978,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1919,7 +2038,7 @@ module.exports = (
 
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1940,7 +2059,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2015,7 +2134,7 @@ module.exports = (
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2034,7 +2153,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2078,7 +2197,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 33 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2112,7 +2231,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2233,7 +2352,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2247,9 +2366,9 @@ function fromByteArray (uint8) {
 
 
 
-var base64 = __webpack_require__(34)
-var ieee754 = __webpack_require__(36)
-var isArray = __webpack_require__(37)
+var base64 = __webpack_require__(37)
+var ieee754 = __webpack_require__(39)
+var isArray = __webpack_require__(40)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -4027,10 +4146,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
 
 /***/ }),
-/* 36 */
+/* 39 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -4120,7 +4239,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 37 */
+/* 40 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -4131,7 +4250,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 38 */
+/* 41 */
 /***/ (function(module, exports) {
 
 var g;
