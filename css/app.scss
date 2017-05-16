@@ -18,6 +18,10 @@ html, body{
     overflow-y: scroll;
   }
 
+  .off-canvas-content{
+    padding-bottom: 5rem;
+  }
+
 }
 #offCanvas{
   margin-top: $toolbar-height;
@@ -42,6 +46,12 @@ html, body{
 
 .title{
   color: $primary;
+}
+
+.bottom-sheet{
+  position: fixed;
+  bottom: 0;
+  background-color: white;
 }
 
 .shoppinglist {

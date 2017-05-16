@@ -9,6 +9,8 @@ html, body {
   #app .off-canvas-wrapper {
     flex: 1;
     overflow-y: scroll; }
+  #app .off-canvas-content {
+    padding-bottom: 5rem; }
 
 #offCanvas {
   margin-top: 3.5rem; }
@@ -25,6 +27,11 @@ html, body {
 
 .title {
   color: #a50000; }
+
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  background-color: white; }
 
 .shoppinglist {
   color: #444;

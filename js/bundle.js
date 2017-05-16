@@ -505,7 +505,7 @@ module.exports = defaults;
 
 const axios = __webpack_require__(20);
 const HTTP = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -517,6 +517,8 @@ HTTP.defaults.headers.common.Origin = 'http://localhost:80';
 HTTP.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 module.exports = HTTP;
+
+// https://desapp-backend.herokuapp.com
 
 
 /***/ }),
@@ -1451,6 +1453,17 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       </div>
       <list-item v-for="item in list.items" :item="item"></list-item>
     </div>
+    <div class="bottom-sheet small-12">
+      <div class="card-section">
+        <div class="small-6 medium-4 columns">
+          <p class="title">TOTAL</p>
+          <p class="stat">$ {{total}}</p>
+        </div>
+        <div class="small-6 medium-4 columns">
+          <button class="button alert">CHECKOUT</button>
+        </div>
+      </div>
+    </div>
   </div>`,
   data: function(){
     return {
@@ -1459,6 +1472,13 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       query: '',
       results: []
     };
+  },
+  computed: {
+    total: function(){
+      return this.list.items.reduce(function(parcial, item){
+        return parcial + item.product.price.integer + (item.product.price.decimal/100);
+      }, 0);
+    }
   },
   methods: {
     findProducts: function(){
