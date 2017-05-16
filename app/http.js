@@ -1,6 +1,6 @@
 const axios = require('axios');
 const HTTP = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://desapp-backend.herokuapp.com',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
