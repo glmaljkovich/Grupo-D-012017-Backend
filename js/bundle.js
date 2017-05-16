@@ -505,15 +505,13 @@ module.exports = defaults;
 
 const axios = __webpack_require__(20);
 const HTTP = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://desapp-backend.herokuapp.com',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Origin': 'http://localhost:80'
+    'Access-Control-Allow-Origin': '*'
   }
 });
-HTTP.defaults.headers.post.Origin = 'http://localhost:80';
-HTTP.defaults.headers.common.Origin = 'http://localhost:80';
+HTTP.defaults.baseURL = 'https://desapp-backend.herokuapp.com';
 HTTP.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 module.exports = HTTP;

@@ -6,6 +6,7 @@ const HTTP = axios.create({
     'Access-Control-Allow-Origin': '*'
   }
 });
+HTTP.defaults.baseURL = 'https://desapp-backend.herokuapp.com';
 HTTP.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 module.exports = HTTP;
