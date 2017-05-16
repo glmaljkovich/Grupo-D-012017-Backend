@@ -6,7 +6,8 @@ var state = {
   sessionService: new SessionService(),
   error: null,
   lists: [],
-  shoppinglist: null
+  shoppinglist: null,
+  newShoppingListName: null
 };
 
 var router = new VueRouter({
@@ -24,8 +25,8 @@ let RouterComponent = Vue.extend({
   },
   methods:{
     logout: function(){
-      this.user = null;
-      this.sessionService.closeSession();
+      this.state.user = null;
+      this.state.sessionService.closeSession();
     },
   }
 });

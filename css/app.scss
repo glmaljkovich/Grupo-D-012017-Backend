@@ -75,6 +75,23 @@ html, body{
   margin-bottom: 1rem;
 }
 
+.search{
+  position: relative;
+}
+
+.add-button{
+  color: lighten($text-color, 25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover{
+    color: limegreen;
+  }
+}
+
+.product:hover .add-button{
+  color: limegreen;
+}
 
 label{
   font-size: 12px;

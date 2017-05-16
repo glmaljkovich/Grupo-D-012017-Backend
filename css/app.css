@@ -48,6 +48,19 @@ html, body {
   width: 100%;
   margin-bottom: 1rem; }
 
+.search {
+  position: relative; }
+
+.add-button {
+  color: #848484;
+  cursor: pointer;
+  transition: all 0.3s ease; }
+  .add-button:hover {
+    color: limegreen; }
+
+.product:hover .add-button {
+  color: limegreen; }
+
 label {
   font-size: 12px;
   font-weight: bold;

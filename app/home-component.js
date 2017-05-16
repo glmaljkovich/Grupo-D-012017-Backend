@@ -16,7 +16,16 @@ let HomeComponent = Vue.component('home',{
     </div>
     <!-- Login Form -->
     <login-form v-else v-on:login="login" v-on:register="register" :error="error" v-on:error-read="errorRead"></login-form>
-    <button type="button" name="button" class="fab">+</button>
+    <button type="button" name="button" class="fab" data-open="add2">+</button>
+    <!-- Add shoppinglist modal -->
+    <div class="reveal" id="add2" data-reveal>
+      <h4><b>Add new Shopping List</b></h4>
+      <input type="text" name="name" v-model="newShoppingListName" placeholder="Enter a name...">
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <button class="button hollow alert" @click="createList" data-close>OK</button>
+    </div>
   </div>
   `,
   data: function(){
@@ -39,42 +48,57 @@ let HomeComponent = Vue.component('home',{
   methods: {
     login: function(login){
       HTTP.post(`user/login`, login)
-      .then(token => {
-        let user = new User(login.username, token);
-        this.sessionService.saveSession(user.username, user.token);
-        this.user = user;
-      })
-      .catch(error => {
-        this.error = error.response.data;
-      });
+          .then(token => {
+            let user = new User(login.username, token);
+            this.sessionService.saveSession(user.username, user.token);
+            this.user = user;
+          })
+          .catch(error => {
+            this.error = error.response.data;
+          });
 
     },
     register: function(register){
       HTTP.post(`user`, register)
-      .then(token => {
-        let user = new User(register.username, token);
-        this.sessionService.saveSession(user.username, user.token);
-        this.user = user;
-      })
-      .catch(error => {
-        this.error = error.response.data;
-      });
+          .then(token => {
+            let user = new User(register.username, token);
+            this.sessionService.saveSession(user.username, user.token);
+            this.user = user;
+          })
+          .catch(error => {
+            this.error = error.response.data;
+          });
     },
     errorRead: function(){
       this.error = null;
     },
     getShoppingLists: function(user){
       HTTP.get('shoppingList/' + user.username)
-      .then(response => {
-        this.lists = response.data;
-      })
-      .catch(error => {
-        console.log("ERROR");
-        this.error = error.response.data;
-      });
+          .then(response => {
+            this.lists = response.data;
+          })
+          .catch(error => {
+            console.log("ERROR");
+            this.error = error.response.data;
+          });
     },
     open: function(shoppingList){
       this.shoppinglist = shoppingList;
+    },
+    createList: function(){
+      let list = {
+        name: this.newShoppingListName,
+        items: []
+      };
+
+      HTTP.post('shoppingList/' + this.user.username, list)
+          .then(response => {
+            list.id = response.data;
+            this.lists.push(list);
+          })
+          .catch(error => {
+            this.error = error.response.data;
+          });
     }
   }
 });
