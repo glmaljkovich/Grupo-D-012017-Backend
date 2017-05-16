@@ -38,14 +38,25 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       </div>
       <list-item v-for="item in list.items" :item="item"></list-item>
     </div>
-    <div class="bottom-sheet small-12">
+    <div v-if="register == null" class="bottom-sheet small-12">
       <div class="card-section">
         <div class="small-6 medium-4 columns">
           <p class="title">TOTAL</p>
           <p class="stat">$ {{total}}</p>
         </div>
         <div class="small-6 medium-4 columns">
-          <button class="button alert">CHECKOUT</button>
+          <button class="button alert" @click="checkout">CHECKOUT</button>
+        </div>
+      </div>
+    </div>
+    <div v-if="register" class="bottom-sheet small-12">
+      <div class="card-section">
+        <div class="small-6 medium-4 columns">
+          <p class="title">Caja {{register.id}}</p>
+          <p class="stat" id="time">Espera: {{register.waitingTime}} seg</p>
+        </div>
+        <div class="small-6 medium-4 columns">
+
         </div>
       </div>
     </div>
@@ -55,7 +66,9 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       list: this.$parent.state.shoppinglist,
       user: this.$parent.state.user,
       query: '',
-      results: []
+      results: [],
+      register: null,
+      waiting: false
     };
   },
   computed: {
@@ -91,6 +104,33 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           .catch(error => {
             this.error = error.response.data;
           });
+    },
+    checkout: function(){
+      let request = {
+        client: {
+          username: this.user.username
+        },
+        shoppingList: this.list
+      };
+      HTTP.post('checkout', request)
+          .then(response => {
+            this.register = response.data;
+            this.waiting = true;
+            this.countDown();
+          })
+          .catch(error => {
+            this.error = error.response.data;
+          });
+    },
+    countDown: function(){
+      let date = new Date();
+      date.setSeconds(date.getSeconds() + this.register.waitingTime);
+      var timerId = countdown(date,
+        function(ts) {
+          document.getElementById('time').innerHTML = ts.toHTML("strong");
+        },
+        countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+
     }
   }
 });
