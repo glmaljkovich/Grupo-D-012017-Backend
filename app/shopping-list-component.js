@@ -125,11 +125,12 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
     countDown: function(){
       let date = new Date();
       date.setSeconds(date.getSeconds() + this.register.waitingTime);
-      var timerId = countdown(date,
-        function(ts) {
-          document.getElementById('time').innerHTML = ts.toHTML("strong");
-        },
-        countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+      $('div#clock').countdown(date)
+                    .on('update.countdown', function(event){
+                      $('#time').text(event.strftime('%M min %S sec'));
+                    })
+                    .on('finish.countdown', callback);
+
 
     }
   }
