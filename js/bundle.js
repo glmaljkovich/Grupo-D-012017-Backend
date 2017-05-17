@@ -1093,7 +1093,7 @@ Vue.component('login-form', {
         <p class="lead"><i>Try logging in or registering to start using the app.</i></p>
         <transition name="fade">
           <div v-if="error" class="alert callout" data-closable>
-            <p><b>Error</b> {{error}}</p>
+            <p><b>Error:</b> {{error}}</p>
             <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -1424,9 +1424,30 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
           {{list.name}}
-          <button href="#" class="button hollow float-right">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
         </h4>
       </div>
+      <transition name="fade">
+        <div v-if="error" class="alert callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
+          <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <p><b>Error:</b> {{error}}</p>
+
+        </div>
+      </transition>
+
+      <transition name="fade">
+        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
+          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <p><b>Success:</b> {{message}}</p>
+
+        </div>
+      </transition>
       <!-- Search -->
       <div class="search">
         <!-- Search Box-->
@@ -1481,7 +1502,9 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       query: '',
       results: [],
       register: null,
-      waiting: false
+      waiting: false,
+      error: null,
+      message: null
     };
   },
   computed: {
@@ -1532,19 +1555,41 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.countDown();
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.error = error.data;
           });
     },
     countDown: function(){
       let date = new Date();
-      date.setSeconds(date.getSeconds() + this.register.waitingTime);
-      $('div#clock').countdown(date)
+      date.setSeconds(date.getSeconds() + this.register.waitingTime+1);
+      let that = this;
+      $('p#time').countdown(date)
                     .on('update.countdown', function(event){
-                      $('#time').text(event.strftime('%M min %S sec'));
+                      that.register.waitingTime = event.strftime('%M min %S sec');
+                      console.log("contando");
                     })
                     .on('finish.countdown', callback);
 
 
+    },
+    errorRead: function(){
+      this.error = null;
+    },
+    messageRead: function(){
+      this.message = null;
+    },
+    saveList: function(){
+      let list2 = this.list;
+      list2.user = {
+        username: this.user.username
+      };
+
+      HTTP.post('shoppingList/update', list2)
+          .then(response => {
+            this.message = response.data;
+          })
+          .catch(error => {
+            this.error = error.response.data;
+          });
     }
   }
 });

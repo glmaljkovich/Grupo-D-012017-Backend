@@ -9,7 +9,7 @@ Vue.component('login-form', {
         <p class="lead"><i>Try logging in or registering to start using the app.</i></p>
         <transition name="fade">
           <div v-if="error" class="alert callout" data-closable>
-            <p><b>Error</b> {{error}}</p>
+            <p><b>Error:</b> {{error}}</p>
             <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
               <span aria-hidden="true">&times;</span>
             </button>

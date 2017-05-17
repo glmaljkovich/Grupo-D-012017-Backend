@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Coca-Cola x2.25L",
+    "brand": "Coca-Cola",
+    "stock": 10000,
+    "price": {
+      "integer": 55,
+      "decimal": 25
+    },
+    "image": "",
+    "category": "Gaseosas",
+    "time": 1
+  },
+  {
+    "name": "Televisor LCD LG 42\"",
+    "brand": "LG",
+    "stock": 1000,
+    "price": {
+      "integer": 7500,
+      "decimal": 99
+    },
+    "image": "",
+    "category": "Electrodomesticos",
+    "time": 1
+  }
+]
