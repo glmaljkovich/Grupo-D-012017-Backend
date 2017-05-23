@@ -1,5 +1,5 @@
-const SessionService = require('./session-service.js');
-const HomeComponent = require('./home-component.js');
+const SessionService        = require('./session-service.js');
+const HomeComponent         = require('./home-component.js');
 const ShoppingListComponent = require('./shopping-list-component.js');
 var state = {
   user: null,
