@@ -1226,8 +1226,8 @@ module.exports = ResultComponent;
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const SessionService = __webpack_require__(4);
-const HomeComponent = __webpack_require__(17);
+const SessionService        = __webpack_require__(4);
+const HomeComponent         = __webpack_require__(17);
 const ShoppingListComponent = __webpack_require__(18);
 var state = {
   user: null,
@@ -1345,6 +1345,9 @@ let HomeComponent = Vue.component('home',{
     if(this.sessionService.hasSession()){
       this.user = this.sessionService.getSession();
     }
+  },
+  mounted: function(){
+    $('.off-canvas-content').foundation();
   },
   methods: {
     login: function(login){
@@ -1602,9 +1605,6 @@ module.exports = ShoppingListComponent;
 /***/ (function(module, exports, __webpack_require__) {
 
 const RouterComponent = __webpack_require__(15);
-// Vue.http.options.root = 'http://localhost:8080';
-// Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
-// Vue.http.headers.post['Content-Type'] = 'application/json';
 
 __webpack_require__(11);
 __webpack_require__(14);

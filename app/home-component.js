@@ -45,6 +45,9 @@ let HomeComponent = Vue.component('home',{
       this.user = this.sessionService.getSession();
     }
   },
+  mounted: function(){
+    $('.off-canvas-content').foundation();
+  },
   methods: {
     login: function(login){
       HTTP.post(`user/login`, login)
