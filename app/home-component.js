@@ -29,12 +29,12 @@ let HomeComponent = Vue.component('home',{
   </div>
   `,
   data: function(){
-    return this.$parent.state;
+    return this.$store.state;
   },
   watch:{
     user: function(user){
       if(user === null){
-        this.lists = [];
+        this.$store.commit('setLists', []);
       } else {
         this.getShoppingLists(user);
       }
@@ -42,7 +42,7 @@ let HomeComponent = Vue.component('home',{
   },
   created: function(){
     if(this.sessionService.hasSession()){
-      this.user = this.sessionService.getSession();
+      this.$store.commit('setUser', this.sessionService.getSession());
     }
   },
   mounted: function(){
