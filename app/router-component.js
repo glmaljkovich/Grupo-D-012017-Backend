@@ -1,6 +1,7 @@
 const SessionService        = require('./session-service.js');
 const HomeComponent         = require('./home-component.js');
 const ShoppingListComponent = require('./shopping-list-component.js');
+const Vuex                  = require('vuex');
 
 const store = new Vuex.Store({
   state: {
@@ -48,7 +49,7 @@ let RouterComponent = Vue.extend({
   router,
   store,
   data: function(){
-    return {state: state};
+    return {state: store.state};
   },
   methods:{
     logout: function(){

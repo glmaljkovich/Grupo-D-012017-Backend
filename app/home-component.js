@@ -52,7 +52,7 @@ let HomeComponent = Vue.component('home',{
     login: function(login){
       HTTP.post(`user/login`, login)
           .then(token => {
-            let user = new User(login.username, token);
+            let user = new User(login.username, token.data);
             this.sessionService.saveSession(user.username, user.token);
             this.user = user;
           })
