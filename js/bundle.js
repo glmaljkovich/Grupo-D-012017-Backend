@@ -1380,6 +1380,7 @@ function(err) {
 module.exports = HTTP;
 
 // https://desapp-backend.herokuapp.com
+// http://localhost:8080
 
 
 /***/ }),
@@ -2215,7 +2216,8 @@ let HomeComponent = Vue.component('home',{
           .then(token => {
             let user = new User(login.username, token.data);
             this.sessionService.saveSession(user.username, user.token);
-            this.user = user;
+            this.$store.commit('setUser', user);
+            console.log(user);
           })
           .catch(error => {
             this.error = error.response.data;
@@ -2225,9 +2227,9 @@ let HomeComponent = Vue.component('home',{
     register: function(register){
       HTTP.post(`user`, register)
           .then(token => {
-            let user = new User(register.username, token);
+            let user = new User(register.username, token.data);
             this.sessionService.saveSession(user.username, user.token);
-            this.user = user;
+            this.$store.commit('setUser', user);
           })
           .catch(error => {
             this.error = error.response.data;
