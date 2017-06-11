@@ -8,8 +8,12 @@ Vue.component('user-detail', {
       <h4>@{{user.username}}</h4>
     </div>
     <ul class="menu vertical">
-      <li><a href="#" class="selected"><i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas</a></li>
-      <li><a href="#"><i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial</a></li>
+      <li>
+        <a href="#" class="selected"><i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span></a>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
+      </li>
       <li>
       <br>
         <button type="button" name="button" class="button alert float-center" @click="logout">
@@ -22,6 +26,11 @@ Vue.component('user-detail', {
   methods: {
     logout: function(){
       this.$emit("logout");
+    }
+  },
+  computed: {
+    listSize(){
+      return this.$store.state.lists.length;
     }
   }
 });
