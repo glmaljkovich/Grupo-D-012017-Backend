@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 21);
+/******/ 	return __webpack_require__(__webpack_require__.s = 23);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -384,37 +384,45 @@ module.exports = {
   trim: trim
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43).Buffer))
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const User = __webpack_require__(2);
+const axios = __webpack_require__(24);
+const SessionService = __webpack_require__(5);
 
-let SessionService = function(){};
+const HTTP = axios.create({
+  baseURL: 'http://localhost:8080',
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  }
+});
+HTTP.defaults.baseURL = 'http://localhost:8080';
+HTTP.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-SessionService.prototype.hasSession = function(){
-  return localStorage.getItem('y_username') !== null;
-};
+const sessionService = new SessionService();
 
-SessionService.prototype.saveSession = function(username, token){
-  localStorage.setItem("y_username", username);
-  localStorage.setItem("y_token", token);
-};
+HTTP.interceptors.request.use(function(config) {
+  let token = sessionService.getSession().token;
+    console.log(token);
+    if(token !== null){
+      config.headers.Authorization = 'Bearer ' + token;
+    }
 
-/**
-* @return {User}
-*/
-SessionService.prototype.getSession = function(){
-  return new User(localStorage.getItem("y_username"), localStorage.getItem("y_token"));
-};
+  return config;
+},
+function(err) {
+  return Promise.reject(err);
+});
 
-SessionService.prototype.closeSession = function(){
-  localStorage.clear();
-};
 
-module.exports = SessionService;
+module.exports = HTTP;
+
+// https://desapp-backend.herokuapp.com
+// http://localhost:8080
 
 
 /***/ }),
@@ -438,7 +446,7 @@ module.exports = User;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(37);
+var normalizeHeaderName = __webpack_require__(39);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -1348,39 +1356,31 @@ var index_esm = {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const axios = __webpack_require__(22);
-const SessionService = __webpack_require__(1);
+const User = __webpack_require__(2);
 
-const HTTP = axios.create({
-  baseURL: 'https://desapp-backend.herokuapp.com',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  }
-});
-HTTP.defaults.baseURL = 'https://desapp-backend.herokuapp.com';
-HTTP.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+let SessionService = function(){};
 
-const sessionService = new SessionService();
+SessionService.prototype.hasSession = function(){
+  return localStorage.getItem('y_username') !== null;
+};
 
-HTTP.interceptors.request.use(function(config) {
-  let token = sessionService.getSession().token;
-    console.log(token);
-    if(token !== null){
-      config.headers.Authorization = 'Bearer ' + token;
-    }
+SessionService.prototype.saveSession = function(username, token){
+  localStorage.setItem("y_username", username);
+  localStorage.setItem("y_token", token);
+};
 
-  return config;
-},
-function(err) {
-  return Promise.reject(err);
-});
+/**
+* @return {User}
+*/
+SessionService.prototype.getSession = function(){
+  return new User(localStorage.getItem("y_username"), localStorage.getItem("y_token"));
+};
 
+SessionService.prototype.closeSession = function(){
+  localStorage.clear();
+};
 
-module.exports = HTTP;
-
-// https://desapp-backend.herokuapp.com
-// http://localhost:8080
+module.exports = SessionService;
 
 
 /***/ }),
@@ -1391,12 +1391,12 @@ module.exports = HTTP;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(29);
-var buildURL = __webpack_require__(32);
-var parseHeaders = __webpack_require__(38);
-var isURLSameOrigin = __webpack_require__(36);
+var settle = __webpack_require__(31);
+var buildURL = __webpack_require__(34);
+var parseHeaders = __webpack_require__(40);
+var isURLSameOrigin = __webpack_require__(38);
 var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(31);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(33);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1492,7 +1492,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(34);
+      var cookies = __webpack_require__(36);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1615,7 +1615,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(28);
+var enhanceError = __webpack_require__(30);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -1865,7 +1865,7 @@ Vue.component('card', {
   methods: {
     open: function(){
       this.$emit('open', this.shoppinglist);
-      this.$router.push('shoppinglist/' + this.shoppinglist.name);
+      this.$router.push('/home/shoppinglist/' + this.shoppinglist.name);
     }
   }
 });
@@ -1873,6 +1873,35 @@ Vue.component('card', {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+
+Vue.component('history-item', {
+  template: `
+  <li class="accordion-item" data-accordion-item>
+    <!-- Title -->
+    <a href="#" class="accordion-title"><h5><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i> <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i></span> {{list.name}}</h5></a>
+    <!-- Content -->
+    <div class="accordion-content" data-tab-content>
+      <div v-for="item in list.items">
+        {{item.product}}
+        <span class="subheader float-right"> cantidad: {{item.quantity}}</span>
+        <hr>
+      </div>
+    </div>
+  </li>`,
+  props:['list'],
+  mounted: function(){
+    $('.off-canvas-content').foundation();
+  },
+  methods: {
+
+  }
+});
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports) {
 
 
@@ -1912,7 +1941,7 @@ module.exports = ListItemComponent;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const User = __webpack_require__(2);
@@ -2012,7 +2041,7 @@ Vue.component('login-form', {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 
@@ -2056,18 +2085,21 @@ module.exports = ResultComponent;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const HomeComponent         = __webpack_require__(18);
-const ShoppingListComponent = __webpack_require__(19);
-const store                 = __webpack_require__(20);
+const HomeComponent         = __webpack_require__(20);
+const HistoryComponent      = __webpack_require__(19);
+const ShoppingListComponent = __webpack_require__(21);
+const store                 = __webpack_require__(22);
 
 var router = new VueRouter({
     base: 'http://localhost:80',
     routes: [
-      {path: '/', component: HomeComponent},
-      {path: '/shoppinglist/:id', component: ShoppingListComponent}
+      {path: '/', redirect:'/home'},
+      {path: '/home', component: HomeComponent},
+      {path: '/home/shoppinglist/:id', component: ShoppingListComponent},
+      {path: '/history', component: HistoryComponent}
     ]
 });
 
@@ -2089,7 +2121,7 @@ module.exports = RouterComponent;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 
@@ -2103,10 +2135,14 @@ Vue.component('user-detail', {
     </div>
     <ul class="menu vertical">
       <li>
-        <a href="#" class="selected"><i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span></a>
+        <router-link to="/home" >
+          <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span>
+        </router-link>
       </li>
       <li>
-        <a href="#"><i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
+        <router-link to="history">
+          <i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
+        </router-link>
       </li>
       <li>
       <br>
@@ -2131,11 +2167,103 @@ Vue.component('user-detail', {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const SessionService = __webpack_require__(1);
-const HTTP = __webpack_require__(5);
+const HTTP = __webpack_require__(1);
+var $ = window.$;
+// require('foundation-sites');
+
+
+let HistoryComponent = Vue.component('history',{
+  template:`
+  <div class="off-canvas-content" data-off-canvas-content>
+    <div class="row content">
+      <div class="small-12 columns">
+        <!-- Title -->
+        <h4 class="title">
+          <router-link to="/">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          </router-link>
+          Historial
+          <button href="#" class="button hollow float-right">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+        </h4>
+      </div>
+      <transition name="fade">
+        <div v-if="error" class="alert callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
+          <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <p><b>Error:</b> {{error}}</p>
+        </div>
+      </transition>
+
+      <transition name="fade">
+        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
+          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <p><b>Success:</b> {{message}}</p>
+        </div>
+      </transition>
+
+      <!-- Lists -->
+      <div v-if="page && page.content.length > 0" class="small-12 columns">
+        <ul class="accordion" data-allow-all-closed="true" id="history-lists" data-accordion>
+          <history-item v-for="list in page.content" :list="list"></history-item>
+        </ul>
+      </div>
+
+      <div v-else class="small-12 columns">
+        <h4 class="subheader">No hay listas en su historial.</h4>
+      </div>
+    </div>
+
+  </div>`,
+  data: function(){
+    return {
+      error: null,
+      message: null,
+      page: null
+    };
+  },
+  mounted: function(){
+    $('.off-canvas-content').foundation();
+  },
+  created: function(){
+    this.getPage(0);
+  },
+  methods: {
+    errorRead: function(){
+      this.error = null;
+    },
+    messageRead: function(){
+      this.message = null;
+    },
+    getPage: function(number){
+      HTTP.get('history/' + this.$store.state.user.username + '?size=5&page=' + number)
+          .then(response => {
+            this.page = response.data;
+            new Foundation.Accordion($('#history-lists'));
+            $('#history-lists').html('caca');
+          })
+          .catch(error => {
+            this.error = error.response.data;
+          });
+    }
+  }
+});
+
+module.exports = HistoryComponent;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const HTTP = __webpack_require__(1);
 const User = __webpack_require__(2);
 
 let HomeComponent = Vue.component('home',{
@@ -2165,15 +2293,27 @@ let HomeComponent = Vue.component('home',{
   </div>
   `,
   data: function(){
-    return this.$store.state;
+    return {
+      error: null,
+      sessionService: this.$store.state.sessionService,
+      newShoppingListName: null
+    };
   },
   watch:{
     user: function(user){
       if(user === null){
-        this.$store.commit('setLists', []);
+        this.$store.commit('clearLists');
       } else {
         this.getShoppingLists(user);
       }
+    }
+  },
+  computed:{
+    user: function(){
+      return this.$store.state.user;
+    },
+    lists: function(){
+      return this.$store.state.lists;
     }
   },
   created: function(){
@@ -2215,15 +2355,14 @@ let HomeComponent = Vue.component('home',{
     getShoppingLists: function(user){
       HTTP.get('shoppingList/' + user.username)
           .then(response => {
-            this.lists = response.data;
+            this.$store.commit('setLists', response.data);
           })
           .catch(error => {
-            console.log("ERROR");
             this.error = error.response.data;
           });
     },
     open: function(shoppingList){
-      this.shoppinglist = shoppingList;
+      this.$store.commit('setShoppingList', shoppingList);
     },
     createList: function(){
       let list = {
@@ -2234,7 +2373,7 @@ let HomeComponent = Vue.component('home',{
       HTTP.post('shoppingList/' + this.user.username, list)
           .then(response => {
             list.id = response.data;
-            this.lists.push(list);
+            this.$store.commit('addList', list);
           })
           .catch(error => {
             this.error = error.response.data;
@@ -2247,10 +2386,10 @@ module.exports = HomeComponent;
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const HTTP = __webpack_require__(5);
+const HTTP = __webpack_require__(1);
 
 let ShoppingListComponent = Vue.component('shoppinglist', {
   template: `
@@ -2336,8 +2475,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
   </div>`,
   data: function(){
     return {
-      list: this.$parent.state.shoppinglist,
-      user: this.$parent.state.user,
+      list: this.$store.state.shoppinglist,
+      user: this.$store.state.user,
       query: '',
       results: [],
       register: null,
@@ -2349,7 +2488,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
   computed: {
     total: function(){
       return this.list.items.reduce(function(parcial, item){
-        return parcial + item.product.price.integer + (item.product.price.decimal/100);
+        return parcial + ((item.product.price.integer + (item.product.price.decimal/100)) * item.quantity);
       }, 0);
     }
   },
@@ -2437,11 +2576,11 @@ module.exports = ShoppingListComponent;
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Vuex                  = __webpack_require__(4);
-const SessionService        = __webpack_require__(1);
+const SessionService        = __webpack_require__(5);
 
 let store = new Vuex.Store({
   state: {
@@ -2449,8 +2588,7 @@ let store = new Vuex.Store({
     sessionService: new SessionService(),
     error: null,
     lists: [],
-    shoppinglist: null,
-    newShoppingListName: null
+    shoppinglist: null
   },
   mutations: {
     setUser (state, user) {
@@ -2465,11 +2603,14 @@ let store = new Vuex.Store({
     setLists(state, lists){
       state.lists = lists;
     },
+    clearLists(state){
+      state.lists = [];
+    },
+    addList(state, list){
+      state.lists.push(list);
+    },
     setShoppingList(state, list){
       state.shoppinglist = list;
-    },
-    setNewShoppingListName(state, name){
-      state.newShoppingListName = name;
     },
     closeSession(state){
       state.sessionService.closeSession();
@@ -2481,17 +2622,21 @@ module.exports = store;
 
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const RouterComponent = __webpack_require__(16);
+// window.$ = require('jquery');
+// require('foundation-sites');
+
+const RouterComponent = __webpack_require__(17);
 const Vuex            = __webpack_require__(4);
 
 __webpack_require__(12);
-__webpack_require__(15);
-__webpack_require__(17);
-__webpack_require__(14);
 __webpack_require__(13);
+__webpack_require__(16);
+__webpack_require__(18);
+__webpack_require__(15);
+__webpack_require__(14);
 
 Vue.use(Vuex);
 
@@ -2502,13 +2647,13 @@ $(document).foundation();
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(25);
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2516,7 +2661,7 @@ module.exports = __webpack_require__(23);
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(10);
-var Axios = __webpack_require__(25);
+var Axios = __webpack_require__(27);
 var defaults = __webpack_require__(3);
 
 /**
@@ -2551,14 +2696,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(7);
-axios.CancelToken = __webpack_require__(24);
+axios.CancelToken = __webpack_require__(26);
 axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(39);
+axios.spread = __webpack_require__(41);
 
 module.exports = axios;
 
@@ -2567,7 +2712,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2631,7 +2776,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2639,10 +2784,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(26);
-var dispatchRequest = __webpack_require__(27);
-var isAbsoluteURL = __webpack_require__(35);
-var combineURLs = __webpack_require__(33);
+var InterceptorManager = __webpack_require__(28);
+var dispatchRequest = __webpack_require__(29);
+var isAbsoluteURL = __webpack_require__(37);
+var combineURLs = __webpack_require__(35);
 
 /**
  * Create a new instance of Axios
@@ -2723,7 +2868,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2782,14 +2927,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(30);
+var transformData = __webpack_require__(32);
 var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(3);
 
@@ -2868,7 +3013,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2894,7 +3039,7 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2926,7 +3071,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2953,7 +3098,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2996,7 +3141,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3071,7 +3216,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3092,7 +3237,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3152,7 +3297,7 @@ module.exports = (
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3173,7 +3318,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3248,7 +3393,7 @@ module.exports = (
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3267,7 +3412,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3311,7 +3456,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3345,7 +3490,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3466,7 +3611,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3480,9 +3625,9 @@ function fromByteArray (uint8) {
 
 
 
-var base64 = __webpack_require__(40)
-var ieee754 = __webpack_require__(42)
-var isArray = __webpack_require__(43)
+var base64 = __webpack_require__(42)
+var ieee754 = __webpack_require__(44)
+var isArray = __webpack_require__(45)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -5260,10 +5405,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -5353,7 +5498,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -5364,7 +5509,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports) {
 
 var g;

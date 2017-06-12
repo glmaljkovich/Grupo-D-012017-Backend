@@ -1,4 +1,3 @@
-const SessionService = require('./session-service.js');
 const HTTP = require('./http.js');
 const User = require('./user.js');
 
@@ -29,15 +28,27 @@ let HomeComponent = Vue.component('home',{
   </div>
   `,
   data: function(){
-    return this.$store.state;
+    return {
+      error: null,
+      sessionService: this.$store.state.sessionService,
+      newShoppingListName: null
+    };
   },
   watch:{
     user: function(user){
       if(user === null){
-        this.$store.commit('setLists', []);
+        this.$store.commit('clearLists');
       } else {
         this.getShoppingLists(user);
       }
+    }
+  },
+  computed:{
+    user: function(){
+      return this.$store.state.user;
+    },
+    lists: function(){
+      return this.$store.state.lists;
     }
   },
   created: function(){
@@ -79,15 +90,14 @@ let HomeComponent = Vue.component('home',{
     getShoppingLists: function(user){
       HTTP.get('shoppingList/' + user.username)
           .then(response => {
-            this.lists = response.data;
+            this.$store.commit('setLists', response.data);
           })
           .catch(error => {
-            console.log("ERROR");
             this.error = error.response.data;
           });
     },
     open: function(shoppingList){
-      this.shoppinglist = shoppingList;
+      this.$store.commit('setShoppingList', shoppingList);
     },
     createList: function(){
       let list = {
@@ -98,7 +108,7 @@ let HomeComponent = Vue.component('home',{
       HTTP.post('shoppingList/' + this.user.username, list)
           .then(response => {
             list.id = response.data;
-            this.lists.push(list);
+            this.$store.commit('addList', list);
           })
           .catch(error => {
             this.error = error.response.data;

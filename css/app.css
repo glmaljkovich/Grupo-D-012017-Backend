@@ -22,8 +22,11 @@ html, body {
 
 .menu a {
   color: #a50000; }
-.menu a.selected {
+.menu a.router-link-active {
   background-color: rgba(165, 0, 0, 0.2); }
+
+.accordion-title {
+  text-transform: capitalize; }
 
 .title {
   color: #a50000; }
@@ -38,7 +41,11 @@ html, body {
   padding: 1rem 0.5rem;
   margin-bottom: 1rem;
   background-color: white;
-  box-shadow: 2px 2px 8px #c4c4c4; }
+  box-shadow: 2px 2px 8px #c4c4c4;
+  transition: all 0.5s;
+  cursor: pointer; }
+  .shoppinglist:hover {
+    box-shadow: 2px 2px 8px #5e5e5e; }
   .shoppinglist * {
     margin-bottom: 0; }
   .shoppinglist .icon {

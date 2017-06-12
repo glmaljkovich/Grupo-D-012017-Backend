@@ -7,8 +7,7 @@ let store = new Vuex.Store({
     sessionService: new SessionService(),
     error: null,
     lists: [],
-    shoppinglist: null,
-    newShoppingListName: null
+    shoppinglist: null
   },
   mutations: {
     setUser (state, user) {
@@ -23,11 +22,14 @@ let store = new Vuex.Store({
     setLists(state, lists){
       state.lists = lists;
     },
+    clearLists(state){
+      state.lists = [];
+    },
+    addList(state, list){
+      state.lists.push(list);
+    },
     setShoppingList(state, list){
       state.shoppinglist = list;
-    },
-    setNewShoppingListName(state, name){
-      state.newShoppingListName = name;
     },
     closeSession(state){
       state.sessionService.closeSession();

@@ -84,8 +84,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
   </div>`,
   data: function(){
     return {
-      list: this.$parent.state.shoppinglist,
-      user: this.$parent.state.user,
+      list: this.$store.state.shoppinglist,
+      user: this.$store.state.user,
       query: '',
       results: [],
       register: null,
@@ -97,7 +97,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
   computed: {
     total: function(){
       return this.list.items.reduce(function(parcial, item){
-        return parcial + item.product.price.integer + (item.product.price.decimal/100);
+        return parcial + ((item.product.price.integer + (item.product.price.decimal/100)) * item.quantity);
       }, 0);
     }
   },

@@ -19,7 +19,7 @@ Vue.component('card', {
   methods: {
     open: function(){
       this.$emit('open', this.shoppinglist);
-      this.$router.push('shoppinglist/' + this.shoppinglist.name);
+      this.$router.push('/home/shoppinglist/' + this.shoppinglist.name);
     }
   }
 });

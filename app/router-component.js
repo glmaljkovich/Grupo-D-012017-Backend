@@ -1,12 +1,15 @@
 const HomeComponent         = require('./home-component.js');
+const HistoryComponent      = require('./history-component.js');
 const ShoppingListComponent = require('./shopping-list-component.js');
 const store                 = require('./store.js');
 
 var router = new VueRouter({
     base: 'http://localhost:80',
     routes: [
-      {path: '/', component: HomeComponent},
-      {path: '/shoppinglist/:id', component: ShoppingListComponent}
+      {path: '/', redirect:'/home'},
+      {path: '/home', component: HomeComponent},
+      {path: '/home/shoppinglist/:id', component: ShoppingListComponent},
+      {path: '/history', component: HistoryComponent}
     ]
 });
 

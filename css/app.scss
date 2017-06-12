@@ -37,12 +37,14 @@ html, body{
   a{
     color: $primary;
   }
-  a.selected{
+  a.router-link-active{
     background-color: transparentize($primary, 0.8);
   }
 }
 
-
+.accordion-title{
+  text-transform: capitalize;
+}
 
 .title{
   color: $primary;
@@ -61,6 +63,12 @@ html, body{
     margin-bottom: 1rem;
     background-color: lighten($background, 50);
     box-shadow: 2px 2px 8px lighten($text-color, 50);
+    transition: all 0.5s;
+    cursor: pointer;
+
+    &:hover{
+      box-shadow: 2px 2px 8px lighten($text-color, 10);
+    }
 
     * {
       margin-bottom: 0;

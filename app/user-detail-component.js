@@ -9,10 +9,14 @@ Vue.component('user-detail', {
     </div>
     <ul class="menu vertical">
       <li>
-        <a href="#" class="selected"><i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span></a>
+        <router-link to="/home" >
+          <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span>
+        </router-link>
       </li>
       <li>
-        <a href="#"><i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
+        <router-link to="history">
+          <i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
+        </router-link>
       </li>
       <li>
       <br>
