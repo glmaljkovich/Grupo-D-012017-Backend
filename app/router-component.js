@@ -23,6 +23,7 @@ let RouterComponent = Vue.extend({
     logout: function(){
       this.$store.commit('clearUser');
       this.$store.commit('closeSession');
+      this.$router.push('/home');
     },
   }
 });
