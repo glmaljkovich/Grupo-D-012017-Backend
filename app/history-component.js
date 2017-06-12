@@ -1,5 +1,5 @@
 const HTTP = require('./http.js');
-var $ = window.$;
+
 // require('foundation-sites');
 
 
@@ -14,7 +14,15 @@ let HistoryComponent = Vue.component('history',{
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
           Historial
-          <button href="#" class="button hollow float-right">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+          <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">
+            <a v-if="!page.first" class="float-left" @click="previousPage">
+              <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </a>
+            <span class="float-left"> Pagina {{page.number + 1}} de {{page.totalPages}} </span>
+            <a v-if="!page.last" class="float-left" @click="nextPage">
+              <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+          </div>
         </h4>
       </div>
       <transition name="fade">
@@ -71,15 +79,19 @@ let HistoryComponent = Vue.component('history',{
       this.message = null;
     },
     getPage: function(number){
-      HTTP.get('history/' + this.$store.state.user.username + '?size=5&page=' + number)
+      HTTP.get('history/' + this.$store.state.user.username + '?size=3&page=' + number)
           .then(response => {
             this.page = response.data;
-            new Foundation.Accordion($('#history-lists'));
-            $('#history-lists').html('caca');
           })
           .catch(error => {
             this.error = error.response.data;
           });
+    },
+    nextPage: function(){
+      this.getPage(this.page.number + 1);
+    },
+    previousPage: function(){
+      this.getPage(this.page.number - 1);
     }
   }
 });

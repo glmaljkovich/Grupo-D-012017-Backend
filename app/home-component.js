@@ -109,6 +109,7 @@ let HomeComponent = Vue.component('home',{
           .then(response => {
             list.id = response.data;
             this.$store.commit('addList', list);
+            this.newShoppingListName = null;
           })
           .catch(error => {
             this.error = error.response.data;

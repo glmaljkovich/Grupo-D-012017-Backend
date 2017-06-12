@@ -19,6 +19,11 @@ Vue.component('user-detail', {
         </router-link>
       </li>
       <li>
+        <router-link to="admin">
+          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard </a>
+        </router-link>
+      </li>
+      <li>
       <br>
         <button type="button" name="button" class="button alert float-center" @click="logout">
           <i class="fa fa-sign-out" aria-hidden="true"></i> Logout

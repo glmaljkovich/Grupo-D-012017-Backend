@@ -12,6 +12,30 @@
     "time": 1
   },
   {
+    "name": "Fernet Branca x 750cc",
+    "brand": "Branca",
+    "stock": 10000,
+    "price": {
+      "integer": 175,
+      "decimal": 25
+    },
+    "image": "",
+    "category": "Bebidas Alcoholicas",
+    "time": 2
+  },
+  {
+    "name": "Fernet Fernandito x 750cc",
+    "brand": "Fernandito",
+    "stock": 10000,
+    "price": {
+      "integer": 50,
+      "decimal": 99
+    },
+    "image": "",
+    "category": "Bebidas Alcoholicas",
+    "time": 2
+  },
+  {
     "name": "Televisor LCD LG 42\"",
     "brand": "LG",
     "stock": 1000,

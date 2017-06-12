@@ -70,22 +70,10 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         </div>
       </div>
     </div>
-    <div v-if="register" class="bottom-sheet small-12">
-      <div class="card-section">
-        <div class="small-6 medium-4 columns">
-          <p class="title">Caja {{register.id}}</p>
-          <p class="stat" id="time">Espera: {{register.waitingTime}} seg</p>
-        </div>
-        <div class="small-6 medium-4 columns">
-
-        </div>
-      </div>
-    </div>
+    <countdown v-if="register" :register="register"></countdown>
   </div>`,
   data: function(){
     return {
-      list: this.$store.state.shoppinglist,
-      user: this.$store.state.user,
       query: '',
       results: [],
       register: null,
@@ -99,6 +87,12 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       return this.list.items.reduce(function(parcial, item){
         return parcial + ((item.product.price.integer + (item.product.price.decimal/100)) * item.quantity);
       }, 0);
+    },
+    user: function(){
+      return this.$store.state.user;
+    },
+    list: function(){
+      return this.$store.state.shoppinglist;
     }
   },
   methods: {
@@ -139,24 +133,10 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           .then(response => {
             this.register = response.data;
             this.waiting = true;
-            this.countDown();
           })
           .catch(error => {
             this.error = error.data;
           });
-    },
-    countDown: function(){
-      let date = new Date();
-      date.setSeconds(date.getSeconds() + this.register.waitingTime+1);
-      let that = this;
-      $('p#time').countdown(date)
-                    .on('update.countdown', function(event){
-                      that.register.waitingTime = event.strftime('%M min %S sec');
-                      console.log("contando");
-                    })
-                    .on('finish.countdown', callback);
-
-
     },
     errorRead: function(){
       this.error = null;

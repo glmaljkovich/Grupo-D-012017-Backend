@@ -5,6 +5,7 @@ const RouterComponent = require('../app/router-component.js');
 const Vuex            = require('vuex');
 
 require('../app/card-component.js');
+require('../app/countdown-component.js');
 require('../app/history-item-component.js');
 require('../app/result-component.js');
 require('../app/user-detail-component.js');
