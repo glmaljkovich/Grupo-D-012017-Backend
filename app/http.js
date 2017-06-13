@@ -2,13 +2,13 @@ const axios = require('axios');
 const SessionService = require('./session-service.js');
 
 const HTTP = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://desapp-backend.herokuapp.com',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
   }
 });
-HTTP.defaults.baseURL = 'http://localhost:8080';
+HTTP.defaults.baseURL = 'https://desapp-backend.herokuapp.com';
 HTTP.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const sessionService = new SessionService();
