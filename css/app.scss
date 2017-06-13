@@ -19,13 +19,15 @@ html, body{
   }
 
   .off-canvas-content{
-    padding-bottom: 5rem;
+    padding-bottom: 6rem;
   }
 
 }
 #offCanvas{
   margin-top: $toolbar-height;
 }
+
+
 
 .top-bar{
   background-color: $primary;
@@ -53,7 +55,15 @@ html, body{
 .bottom-sheet{
   position: fixed;
   bottom: 0;
+  min-height: 6rem;
   background-color: white;
+  display: flex;
+  flex-direction: row;
+}
+
+.flex{
+  display: flex;
+  flex: 1;
 }
 
 .shoppinglist {

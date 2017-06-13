@@ -35,15 +35,7 @@ let HistoryComponent = Vue.component('history',{
         </div>
       </transition>
 
-      <transition name="fade">
-        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Success:</b> {{message}}</p>
-        </div>
-      </transition>
+      <success :message="message"></success>
 
       <!-- Lists -->
       <div v-if="page && page.content.length > 0" class="small-12 columns">

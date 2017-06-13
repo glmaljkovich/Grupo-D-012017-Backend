@@ -11,7 +11,6 @@ let AdminComponent = Vue.component('shoppinglist', {
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
           Dashboard
-          <button class="button hollow float-right" >Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
         </h4>
       </div>
       <transition name="fade">
@@ -25,16 +24,7 @@ let AdminComponent = Vue.component('shoppinglist', {
         </div>
       </transition>
 
-      <transition name="fade">
-        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Success:</b> {{message}}</p>
-
-        </div>
-      </transition>
+      <success :message="message"></success>
 
       <div class="small-12 columns">
         <div class="card">

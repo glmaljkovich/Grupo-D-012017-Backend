@@ -25,16 +25,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         </div>
       </transition>
 
-      <transition name="fade">
-        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Success:</b> {{message}}</p>
+      <success :message="message"></success>
 
-        </div>
-      </transition>
       <!-- Search -->
       <div class="search">
         <!-- Search Box-->
@@ -59,14 +51,17 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       </div>
       <list-item v-for="item in list.items" :item="item"></list-item>
     </div>
-    <div v-if="register == null" class="bottom-sheet small-12">
-      <div class="card-section">
+
+    <div v-if="register == null" class="bottom-sheet small-12 columns">
+      <div class="card-section flex">
         <div class="small-6 medium-4 columns">
           <p class="title">TOTAL</p>
           <p class="stat">$ {{total}}</p>
         </div>
         <div class="small-6 medium-4 columns">
-          <button class="button alert" @click="checkout">CHECKOUT</button>
+          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>
+          <span class="float-right">&nbsp;</span>
+          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>
         </div>
       </div>
     </div>

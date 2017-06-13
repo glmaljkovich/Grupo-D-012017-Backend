@@ -14,6 +14,11 @@ Vue.component('user-detail', {
         </router-link>
       </li>
       <li>
+        <router-link to="/profile" >
+          <i class="fa fa-user fa-fw" aria-hidden="true"></i> Perfil
+        </router-link>
+      </li>
+      <li>
         <router-link to="history">
           <i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
         </router-link>

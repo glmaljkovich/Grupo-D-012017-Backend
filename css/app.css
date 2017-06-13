@@ -10,7 +10,7 @@ html, body {
     flex: 1;
     overflow-y: scroll; }
   #app .off-canvas-content {
-    padding-bottom: 5rem; }
+    padding-bottom: 6rem; }
 
 #offCanvas {
   margin-top: 3.5rem; }
@@ -34,7 +34,14 @@ html, body {
 .bottom-sheet {
   position: fixed;
   bottom: 0;
-  background-color: white; }
+  min-height: 6rem;
+  background-color: white;
+  display: flex;
+  flex-direction: row; }
+
+.flex {
+  display: flex;
+  flex: 1; }
 
 .shoppinglist {
   color: #444;

@@ -11,11 +11,11 @@ let ListItemComponent = Vue.component('list-item', {
           <div class="small-12 columns">
             <h5>{{item.product.name}}</h5>
           </div>
-          <div class="small-6 large-3 end columns">
+          <div class="small-6 large-4 xlarge-3 end columns">
             <p class="subheader">UNIDAD</p>
             <p>$ {{item.product.price.integer}}.{{item.product.price.decimal}}</p>
           </div>
-          <div class="small-6 large-3 end columns">
+          <div class="small-6 large-4 xlarge-3 end columns">
             <p class="subheader">CANTIDAD</p>
             <input type="number" v-model="item.quantity">
           </div>

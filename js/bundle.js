@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 25);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -384,13 +384,13 @@ module.exports = {
   trim: trim
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46).Buffer))
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const axios = __webpack_require__(26);
+const axios = __webpack_require__(27);
 const SessionService = __webpack_require__(5);
 
 const HTTP = axios.create({
@@ -446,7 +446,7 @@ module.exports = User;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(41);
+var normalizeHeaderName = __webpack_require__(42);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -1391,12 +1391,12 @@ module.exports = SessionService;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(33);
-var buildURL = __webpack_require__(36);
-var parseHeaders = __webpack_require__(42);
-var isURLSameOrigin = __webpack_require__(40);
+var settle = __webpack_require__(34);
+var buildURL = __webpack_require__(37);
+var parseHeaders = __webpack_require__(43);
+var isURLSameOrigin = __webpack_require__(41);
 var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(35);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(36);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1492,7 +1492,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(38);
+      var cookies = __webpack_require__(39);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1615,7 +1615,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(32);
+var enhanceError = __webpack_require__(33);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -1878,8 +1878,8 @@ Vue.component('card', {
 
 Vue.component('countdown', {
   template: `
-  <div class="bottom-sheet small-12">
-    <div class="card-section">
+  <div class="bottom-sheet small-12 columns">
+    <div class="card-section flex">
       <div class="small-6 medium-4 columns">
         <p class="title">Caja {{register.id}}</p>
         <h5 id="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Espera: {{register.waitingTime}}</h5>
@@ -1953,11 +1953,11 @@ let ListItemComponent = Vue.component('list-item', {
           <div class="small-12 columns">
             <h5>{{item.product.name}}</h5>
           </div>
-          <div class="small-6 large-3 end columns">
+          <div class="small-6 large-4 xlarge-3 end columns">
             <p class="subheader">UNIDAD</p>
             <p>$ {{item.product.price.integer}}.{{item.product.price.decimal}}</p>
           </div>
-          <div class="small-6 large-3 end columns">
+          <div class="small-6 large-4 xlarge-3 end columns">
             <p class="subheader">CANTIDAD</p>
             <input type="number" v-model="item.quantity">
           </div>
@@ -2124,16 +2124,17 @@ module.exports = ResultComponent;
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const HomeComponent         = __webpack_require__(22);
-const HistoryComponent      = __webpack_require__(21);
-const ShoppingListComponent = __webpack_require__(23);
-const AdminComponent        = __webpack_require__(20);
-const store                 = __webpack_require__(24);
+const HomeComponent         = __webpack_require__(23);
+const HistoryComponent      = __webpack_require__(22);
+const ShoppingListComponent = __webpack_require__(24);
+const AdminComponent        = __webpack_require__(21);
+const store                 = __webpack_require__(25);
 
 var router = new VueRouter({
     base: 'http://localhost:80',
     routes: [
       {path: '/', redirect:'/home'},
+      {path: '/profile', redirect:'/home'},
       {path: '/home', component: HomeComponent},
       {path: '/admin', component: AdminComponent},
       {path: '/home/shoppinglist/:id', component: ShoppingListComponent},
@@ -2163,6 +2164,32 @@ module.exports = RouterComponent;
 /* 19 */
 /***/ (function(module, exports) {
 
+Vue.component('success', {
+  template: `
+  <transition name="fade">
+    <div v-if="message" class="success callout" data-closable="slide-out-right" style="position: absolute; top: 10vh; right: 1rem; z-index: 1;">
+      <button class="close-button small" aria-label="Dismiss alert" type="button" @click="messageRead">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p style="margin-right: 2rem;"><b>Success:</b> {{message}}</p>
+    </div>
+  </transition>`,
+  props: ['message'],
+  mounted: function(){
+    $('.success').foundation();
+  },
+  methods: {
+    messageRead: function(){
+      this.message = null;
+    }
+  }
+});
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
 
 Vue.component('user-detail', {
   template: `
@@ -2176,6 +2203,11 @@ Vue.component('user-detail', {
       <li>
         <router-link to="/home" >
           <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/profile" >
+          <i class="fa fa-user fa-fw" aria-hidden="true"></i> Perfil
         </router-link>
       </li>
       <li>
@@ -2211,7 +2243,7 @@ Vue.component('user-detail', {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const HTTP = __webpack_require__(1);
@@ -2227,7 +2259,6 @@ let AdminComponent = Vue.component('shoppinglist', {
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
           Dashboard
-          <button class="button hollow float-right" >Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
         </h4>
       </div>
       <transition name="fade">
@@ -2241,16 +2272,7 @@ let AdminComponent = Vue.component('shoppinglist', {
         </div>
       </transition>
 
-      <transition name="fade">
-        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Success:</b> {{message}}</p>
-
-        </div>
-      </transition>
+      <success :message="message"></success>
 
       <div class="small-12 columns">
         <div class="card">
@@ -2301,7 +2323,7 @@ module.exports = AdminComponent;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const HTTP = __webpack_require__(1);
@@ -2341,15 +2363,7 @@ let HistoryComponent = Vue.component('history',{
         </div>
       </transition>
 
-      <transition name="fade">
-        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Success:</b> {{message}}</p>
-        </div>
-      </transition>
+      <success :message="message"></success>
 
       <!-- Lists -->
       <div v-if="page && page.content.length > 0" class="small-12 columns">
@@ -2406,7 +2420,7 @@ module.exports = HistoryComponent;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const HTTP = __webpack_require__(1);
@@ -2533,7 +2547,7 @@ module.exports = HomeComponent;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const HTTP = __webpack_require__(1);
@@ -2563,16 +2577,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         </div>
       </transition>
 
-      <transition name="fade">
-        <div v-if="message" class="success callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="messageRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Success:</b> {{message}}</p>
+      <success :message="message"></success>
 
-        </div>
-      </transition>
       <!-- Search -->
       <div class="search">
         <!-- Search Box-->
@@ -2597,14 +2603,17 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       </div>
       <list-item v-for="item in list.items" :item="item"></list-item>
     </div>
-    <div v-if="register == null" class="bottom-sheet small-12">
-      <div class="card-section">
+
+    <div v-if="register == null" class="bottom-sheet small-12 columns">
+      <div class="card-section flex">
         <div class="small-6 medium-4 columns">
           <p class="title">TOTAL</p>
           <p class="stat">$ {{total}}</p>
         </div>
         <div class="small-6 medium-4 columns">
-          <button class="button alert" @click="checkout">CHECKOUT</button>
+          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>
+          <span class="float-right">&nbsp;</span>
+          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>
         </div>
       </div>
     </div>
@@ -2703,7 +2712,7 @@ module.exports = ShoppingListComponent;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Vuex                  = __webpack_require__(4);
@@ -2749,7 +2758,7 @@ module.exports = store;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // window.$ = require('jquery');
@@ -2760,9 +2769,10 @@ const Vuex            = __webpack_require__(4);
 
 __webpack_require__(12);
 __webpack_require__(13);
+__webpack_require__(19);
 __webpack_require__(14);
 __webpack_require__(17);
-__webpack_require__(19);
+__webpack_require__(20);
 __webpack_require__(16);
 __webpack_require__(15);
 
@@ -2775,13 +2785,13 @@ $(document).foundation();
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(27);
+module.exports = __webpack_require__(28);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2789,7 +2799,7 @@ module.exports = __webpack_require__(27);
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(10);
-var Axios = __webpack_require__(29);
+var Axios = __webpack_require__(30);
 var defaults = __webpack_require__(3);
 
 /**
@@ -2824,14 +2834,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(7);
-axios.CancelToken = __webpack_require__(28);
+axios.CancelToken = __webpack_require__(29);
 axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(43);
+axios.spread = __webpack_require__(44);
 
 module.exports = axios;
 
@@ -2840,7 +2850,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2904,7 +2914,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2912,10 +2922,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(30);
-var dispatchRequest = __webpack_require__(31);
-var isAbsoluteURL = __webpack_require__(39);
-var combineURLs = __webpack_require__(37);
+var InterceptorManager = __webpack_require__(31);
+var dispatchRequest = __webpack_require__(32);
+var isAbsoluteURL = __webpack_require__(40);
+var combineURLs = __webpack_require__(38);
 
 /**
  * Create a new instance of Axios
@@ -2996,7 +3006,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3055,14 +3065,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(34);
+var transformData = __webpack_require__(35);
 var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(3);
 
@@ -3141,7 +3151,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3167,7 +3177,7 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3199,7 +3209,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3226,7 +3236,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3269,7 +3279,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3344,7 +3354,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3365,7 +3375,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3425,7 +3435,7 @@ module.exports = (
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3446,7 +3456,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3521,7 +3531,7 @@ module.exports = (
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3540,7 +3550,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3584,7 +3594,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3618,7 +3628,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3739,7 +3749,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3753,9 +3763,9 @@ function fromByteArray (uint8) {
 
 
 
-var base64 = __webpack_require__(44)
-var ieee754 = __webpack_require__(46)
-var isArray = __webpack_require__(47)
+var base64 = __webpack_require__(45)
+var ieee754 = __webpack_require__(47)
+var isArray = __webpack_require__(48)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -5533,10 +5543,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)))
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -5626,7 +5636,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -5637,7 +5647,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 var g;

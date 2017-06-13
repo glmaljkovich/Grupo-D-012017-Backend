@@ -8,6 +8,7 @@ var router = new VueRouter({
     base: 'http://localhost:80',
     routes: [
       {path: '/', redirect:'/home'},
+      {path: '/profile', redirect:'/home'},
       {path: '/home', component: HomeComponent},
       {path: '/admin', component: AdminComponent},
       {path: '/home/shoppinglist/:id', component: ShoppingListComponent},
