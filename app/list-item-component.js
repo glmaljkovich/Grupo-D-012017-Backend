@@ -5,7 +5,7 @@ let ListItemComponent = Vue.component('list-item', {
     <div class="card list">
       <div class="card-section">
         <div class="small-3 columns">
-          <img src="http://placehold.it/200x200" class="img-rounded" alt="">
+          <img src="http://lorempixel.com/200/200/food" class="img-rounded" alt="">
         </div>
         <div class="small-9  columns">
           <div class="small-12 columns">

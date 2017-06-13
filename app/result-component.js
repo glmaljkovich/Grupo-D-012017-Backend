@@ -3,7 +3,7 @@ let ResultComponent = Vue.component('result', {
   template: `
   <div class="product clearfix">
     <div class="small-3 medium-2 columns">
-      <img src="http://placehold.it/200x200" class="img-rounded" alt="">
+      <img src="http://lorempixel.com/200/200/food" class="img-rounded" alt="">
     </div>
     <div class="small-9 medium-10 columns">
       <div class="small-12 columns hide-for-small-only">

@@ -24,6 +24,18 @@
     "time": 2
   },
   {
+    "name": "Papitas Lays x300g",
+    "brand": "Lays",
+    "stock": 10000,
+    "price": {
+      "integer": 50,
+      "decimal": 75
+    },
+    "image": "http://lorempixel.com/200/200/food",
+    "category": "Bebidas Alcoholicas",
+    "time": 2
+  },
+  {
     "name": "Fernet Fernandito x 750cc",
     "brand": "Fernandito",
     "stock": 10000,
