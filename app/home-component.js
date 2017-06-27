@@ -17,7 +17,7 @@ let HomeComponent = Vue.component('home',{
       <button type="button" name="button" class="fab" data-open="add2">+</button>
     </div>
     <!-- Login Form -->
-    <login-form v-else v-on:login="login" v-on:register="register" :error="error"></login-form>
+    <login-form v-else v-on:login="login" v-on:register="register" v-on:errorRead="errorRead" ></login-form>
     <!-- Add shoppinglist modal -->
     <div class="reveal" id="add2" data-reveal>
       <h4><b>Add new Shopping List</b></h4>
@@ -31,7 +31,6 @@ let HomeComponent = Vue.component('home',{
   `,
   data: function(){
     return {
-      error: null,
       sessionService: this.$store.state.sessionService,
       newShoppingListName: null
     };
@@ -74,7 +73,7 @@ let HomeComponent = Vue.component('home',{
             this.$store.commit('setUser', user);
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     },
     getShoppingLists: function(user){
@@ -83,7 +82,7 @@ let HomeComponent = Vue.component('home',{
             this.$store.commit('setLists', response.data);
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     },
     open: function(shoppingList){
@@ -102,7 +101,7 @@ let HomeComponent = Vue.component('home',{
             this.newShoppingListName = null;
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     }
   }

@@ -12,6 +12,7 @@ require('../app/sidebar-component.js');
 require('../app/login-form-component.js');
 require('../app/list-item-component.js');
 
+
 Vue.use(Vuex);
 
 var app = new RouterComponent();

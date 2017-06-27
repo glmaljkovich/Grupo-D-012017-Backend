@@ -6,6 +6,7 @@ let store = new Vuex.Store({
     user: null,
     sessionService: new SessionService(),
     error: null,
+    message: null,
     lists: [],
     shoppinglist: null
   },
@@ -18,6 +19,9 @@ let store = new Vuex.Store({
     },
     setError(state, error){
       state.error = error;
+    },
+    setMessage(state, message){
+      state.message = message;
     },
     setLists(state, lists){
       state.lists = lists;

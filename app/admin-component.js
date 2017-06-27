@@ -1,6 +1,6 @@
 const HTTP = require('./http.js');
 
-let AdminComponent = Vue.component('shoppinglist', {
+let AdminComponent = Vue.component('admin', {
   template: `
   <div class="off-canvas-content" data-off-canvas-content>
     <div class="row content">
@@ -13,9 +13,6 @@ let AdminComponent = Vue.component('shoppinglist', {
           Dashboard
         </h4>
       </div>
-      
-      <error :error="error"></error>
-      <success :message="message"></success>
 
       <div class="small-12 columns">
         <div class="card">
@@ -30,12 +27,6 @@ let AdminComponent = Vue.component('shoppinglist', {
       </div>
     </div>
   </div>`,
-  data: function(){
-    return {
-      error: null,
-      message: null
-    };
-  },
   computed: {
     user: function(){
       return this.$store.state.user;
@@ -48,17 +39,11 @@ let AdminComponent = Vue.component('shoppinglist', {
 
       HTTP.post('product/upload', data)
           .then(response => {
-            this.message = response.data;
+            this.$store.commit("setMessage", response.data);
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
-    },
-    errorRead: function(){
-      this.error = null;
-    },
-    messageRead: function(){
-      this.message = null;
     }
   }
 });

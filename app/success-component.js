@@ -8,13 +8,17 @@ Vue.component('success', {
       <p style="margin-right: 2rem;"><b>Success:</b> {{message}}</p>
     </div>
   </transition>`,
-  props: ['message'],
+  computed: {
+    message: function(){
+      return this.$store.state.message;
+    }
+  },
   mounted: function(){
     $('.success').foundation();
   },
   methods: {
     messageRead: function(){
-      this.$parent.message = null;
+      this.$store.commit("setMessage", null);
     }
   }
 });

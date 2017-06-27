@@ -7,10 +7,17 @@ module.exports = {
     path: path.resolve(__dirname, 'js')
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      loader: 'babel-loader'
-    }]
-}
+    loaders: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader' 
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader'
+      }
+  ]
+},
+
 };

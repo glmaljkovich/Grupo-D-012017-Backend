@@ -2,12 +2,14 @@ const HomeComponent         = require('./home-component.js');
 const HistoryComponent      = require('./history-component.js');
 const ShoppingListComponent = require('./shopping-list-component.js');
 const AdminComponent        = require('./admin-component.js');
+// const ProfileComponent      = require('./profile-component.js');
 const store                 = require('./store.js');
+import Profile from './Profile.vue';
 
 var router = new VueRouter({
     routes: [
       {path: '/', redirect:'/home'},
-      {path: '/profile', redirect:'/home'},
+      {path: '/profile', component: Profile},
       {path: '/home', component: HomeComponent},
       {path: '/admin', component: AdminComponent},
       {path: '/home/shoppinglist/:id', component: ShoppingListComponent},

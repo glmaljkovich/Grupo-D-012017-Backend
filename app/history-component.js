@@ -25,17 +25,6 @@ let HistoryComponent = Vue.component('history',{
           </div>
         </h4>
       </div>
-      <transition name="fade">
-        <div v-if="error" class="alert callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Error:</b> {{error}}</p>
-        </div>
-      </transition>
-
-      <success :message="message"></success>
 
       <!-- Lists -->
       <div v-if="page && page.content.length > 0" class="small-12 columns">
@@ -52,8 +41,6 @@ let HistoryComponent = Vue.component('history',{
   </div>`,
   data: function(){
     return {
-      error: null,
-      message: null,
       page: null
     };
   },
@@ -64,19 +51,13 @@ let HistoryComponent = Vue.component('history',{
     this.getPage(0);
   },
   methods: {
-    errorRead: function(){
-      this.error = null;
-    },
-    messageRead: function(){
-      this.message = null;
-    },
     getPage: function(number){
       HTTP.get('history/' + this.$store.state.user.username + '?size=3&page=' + number)
           .then(response => {
             this.page = response.data;
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     },
     nextPage: function(){

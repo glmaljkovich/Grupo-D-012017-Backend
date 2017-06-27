@@ -15,9 +15,6 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         </h4>
       </div>
 
-      <error :error="error"></error>
-      <success :message="message"></success>
-
       <!-- Search -->
       <div class="search">
         <!-- Search Box-->
@@ -42,7 +39,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       </div>
       <list-item v-for="item in list.items" :item="item"></list-item>
     </div>
-
+    <error></error>
+    <success></success>
     <div v-if="register == null" class="bottom-sheet small-12 columns">
       <div class="card-section flex">
         <div class="small-6 medium-4 columns">
@@ -63,9 +61,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       query: '',
       results: [],
       register: null,
-      waiting: false,
-      error: null,
-      message: null
+      waiting: false
     };
   },
   computed: {
@@ -88,8 +84,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.results = response.data;
           })
           .catch(error => {
-            console.log("ERROR");
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     },
     addListItem: function(product){
@@ -105,7 +100,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.query = '';
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     },
     checkout: function(){
@@ -122,7 +117,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.waiting = true;
           })
           .catch(error => {
-            this.error = error.data;
+            this.$store.commmit("setError", error.response.data);
           });
     },
     saveList: function(){
@@ -133,10 +128,10 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
 
       HTTP.post('shoppingList/update', list2)
           .then(response => {
-            this.message = response.data;
+            this.$store.commmit("setMessage", response.data);
           })
           .catch(error => {
-            this.error = error.response.data;
+            this.$store.commmit("setError", error.response.data);
           });
     }
   }
