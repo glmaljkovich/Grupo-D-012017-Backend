@@ -31,6 +31,9 @@ html, body {
 .title {
   color: #a50000; }
 
+.uppercase {
+  text-transform: uppercase; }
+
 .bottom-sheet {
   position: fixed;
   bottom: 0;

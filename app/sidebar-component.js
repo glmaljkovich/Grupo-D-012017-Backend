@@ -9,6 +9,11 @@ Vue.component('user-detail', {
     </div>
     <ul class="menu vertical">
       <li>
+        <router-link to="/admin">
+          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard </a>
+        </router-link>
+      </li>
+      <li>
         <router-link to="/home" >
           <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span>
         </router-link>
@@ -19,13 +24,8 @@ Vue.component('user-detail', {
         </router-link>
       </li>
       <li>
-        <router-link to="history">
+        <router-link to="/history">
           <i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
-        </router-link>
-      </li>
-      <li>
-        <router-link to="admin">
-          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard </a>
         </router-link>
       </li>
       <li>

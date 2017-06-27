@@ -13,28 +13,20 @@ let AdminComponent = Vue.component('shoppinglist', {
           Dashboard
         </h4>
       </div>
-      <transition name="fade">
-        <div v-if="error" class="alert callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Error:</b> {{error}}</p>
-
-        </div>
-      </transition>
-
+      
+      <error :error="error"></error>
       <success :message="message"></success>
 
       <div class="small-12 columns">
         <div class="card">
           <div class="card-section">
-            <h4 class="subheader">Upload Products File</h4>
-            <hr>
+            <p class="subheader uppercase">Upload Products File</p>
+            <br>
             <input type="file" name="file" id="filecito" /><br/><br/>
             <button class="button" @click="uploadFile"><i class="fa fa-upload" aria-hidden="true"></i> Subir</button>
           </div>
         </div>
+
       </div>
     </div>
   </div>`,

@@ -1,5 +1,6 @@
 const HTTP = require('./http.js');
 const User = require('./user.js');
+const LockService = require('./lock.js');
 
 let HomeComponent = Vue.component('home',{
   template:`
@@ -7,15 +8,16 @@ let HomeComponent = Vue.component('home',{
     <div class="content" v-if="user">
       <div class="small-12 columns">
         <h4 class="title">My Shopping Lists</h4>
+        <p v-if="lists == [] || lists == '' " class="subheader">No tienes listas aun. Crea una nueva!</p>
       </div>
       <div>
         <!-- Shopping List -->
         <card v-for="list in lists" :shoppinglist="list" v-on:open="open"></card>
       </div>
+      <button type="button" name="button" class="fab" data-open="add2">+</button>
     </div>
     <!-- Login Form -->
-    <login-form v-else v-on:login="login" v-on:register="register" :error="error" v-on:error-read="errorRead"></login-form>
-    <button type="button" name="button" class="fab" data-open="add2">+</button>
+    <login-form v-else v-on:login="login" v-on:register="register" :error="error"></login-form>
     <!-- Add shoppinglist modal -->
     <div class="reveal" id="add2" data-reveal>
       <h4><b>Add new Shopping List</b></h4>
@@ -55,23 +57,14 @@ let HomeComponent = Vue.component('home',{
     if(this.sessionService.hasSession()){
       this.$store.commit('setUser', this.sessionService.getSession());
     }
+    LockService.router = this.$router;
   },
   mounted: function(){
     $('.off-canvas-content').foundation();
   },
   methods: {
-    login: function(login){
-      HTTP.post(`user/login`, login)
-          .then(token => {
-            let user = new User(login.username, token.data);
-            this.sessionService.saveSession(user.username, user.token);
-            this.$store.commit('setUser', user);
-            console.log(user);
-          })
-          .catch(error => {
-            this.error = error.response.data;
-          });
-
+    login: function(){
+      LockService.lock.show();
     },
     register: function(register){
       HTTP.post(`user`, register)
@@ -83,9 +76,6 @@ let HomeComponent = Vue.component('home',{
           .catch(error => {
             this.error = error.response.data;
           });
-    },
-    errorRead: function(){
-      this.error = null;
     },
     getShoppingLists: function(user){
       HTTP.get('shoppingList/' + user.username)

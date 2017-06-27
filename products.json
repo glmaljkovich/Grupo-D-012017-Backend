@@ -32,7 +32,7 @@
       "decimal": 75
     },
     "image": "http://lorempixel.com/200/200/food",
-    "category": "Bebidas Alcoholicas",
+    "category": "Snacks",
     "time": 2
   },
   {
@@ -57,6 +57,18 @@
     },
     "image": "",
     "category": "Electrodomesticos",
+    "time": 1
+  },
+  {
+    "name": "Capitan del Espacio Triple",
+    "brand": "Capitan del Espacio",
+    "stock": 1000,
+    "price": {
+      "integer": 13,
+      "decimal": 99
+    },
+    "image": "",
+    "category": "Golosinas",
     "time": 1
   }
 ]

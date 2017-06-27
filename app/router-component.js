@@ -5,7 +5,6 @@ const AdminComponent        = require('./admin-component.js');
 const store                 = require('./store.js');
 
 var router = new VueRouter({
-    base: 'http://localhost:80',
     routes: [
       {path: '/', redirect:'/home'},
       {path: '/profile', redirect:'/home'},

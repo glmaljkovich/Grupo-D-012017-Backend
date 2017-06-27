@@ -14,17 +14,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
         </h4>
       </div>
-      <transition name="fade">
-        <div v-if="error" class="alert callout" data-closable style="position: absolute; top: 10vh; right: 10vh; z-index: 1;">
-          <button class="close-button" aria-label="Dismiss alert" type="button" @click="errorRead">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <br>
-          <p><b>Error:</b> {{error}}</p>
 
-        </div>
-      </transition>
-
+      <error :error="error"></error>
       <success :message="message"></success>
 
       <!-- Search -->
@@ -124,6 +115,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         },
         shoppingList: this.list
       };
+
       HTTP.post('checkout', request)
           .then(response => {
             this.register = response.data;
@@ -132,12 +124,6 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           .catch(error => {
             this.error = error.data;
           });
-    },
-    errorRead: function(){
-      this.error = null;
-    },
-    messageRead: function(){
-      this.message = null;
     },
     saveList: function(){
       let list2 = this.list;
