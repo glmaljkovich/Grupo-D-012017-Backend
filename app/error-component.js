@@ -5,7 +5,7 @@ Vue.component('error', {
       <button class="close-button small" aria-label="Dismiss alert" type="button" @click="messageRead">
         <span aria-hidden="true">&times;</span>
       </button>
-      <p style="margin-right: 2rem;"><b>Success:</b> {{error}}</p>
+      <p style="margin-right: 2rem;"><b>Error:</b> {{error}}</p>
     </div>
   </transition>`,
   computed: {

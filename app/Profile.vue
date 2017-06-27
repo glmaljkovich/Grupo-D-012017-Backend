@@ -19,21 +19,24 @@
             <br>
             <label for="name">
               Name
-              <input type="text" name="name" id="name" />
+              <input type="text" name="name" id="name" v-model="profile.name" />
             </label>
             <label for="lastname">
               Last name
-              <input type="text" name="name" id="lastname" /><br/>
+              <input type="text" name="name" id="lastname" v-model="profile.lastName" />
             </label>
             <label for="address">
+              Address
               <vue-google-autocomplete
                   id="address"
                   classname="form-control"
-                  placeholder="Start typing"
+                  v-bind:placeholder="addressLiteral"
                   country="ar"
                   v-on:placechanged="getAddressData">
               </vue-google-autocomplete>
             </label>
+            <div id="map" style="width: 100%; height: 200px;"></div>
+            <br>
             <button href="#" class="button hollow" @click="updateProfile">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
           </div>
         </div>
@@ -51,15 +54,39 @@ export default{
   components: { VueGoogleAutocomplete },
 
   name: 'profile',
-  
+
   data: function(){
     return {
-      profile: null
+      profile: {
+        address: '',
+        name: '',
+        lastName: '',
+        latitude: null,
+        longitude: null
+      },
+      address: {lat: -34.709405, lng: -58.280486}
     };
   },
   computed: {
     user: function(){
       return this.$store.state.user;
+    },
+    addressLiteral: function(){
+      if(this.profile.address != ''){
+        return this.profile.address;
+      }
+      return 'Type an address'
+    },
+    coords: function(){
+      return {
+        lat: this.profile.latitude,
+        lng: this.profile.longitude
+      }
+    }
+  },
+  watch:{
+    coords: function(){
+      this.drawMap();
     }
   },
   created: function(){
@@ -68,21 +95,48 @@ export default{
           this.profile = response.data;
         })
         .catch(error => {
-          this.$store.commmit("setError", error.response.data);
+          this.$store.commit("setError", error.response.data);
         });
+  },
+  mounted: function(){
+    this.drawMap();
   },
   methods: {
     updateProfile: function(){
-      HTTP.put("user/profile")
+      HTTP.put("user/profile", this.profile)
           .then(response => {
-            this.$store.commmit("setMessage", response.data);
+            this.$store.commit("setMessage", response.data);
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     },
     getAddressData: function(data, place){
       console.log(data);
+      this.address = data;
+      this.profile.address = data.route + " " + data.street_number + ", " + data.locality + ", " + data.administrative_area_level_1 + ", " + data.country;
+      this.profile.latitude = data.latitude;
+      this.profile.longitude = data.longitude;
+    },
+    drawMap(){
+      var myLatLngOrigin = {lat: -34.706543, lng: -58.278538};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLngOrigin,
+        scrollwheel: false,
+        zoom: 15
+      });
+
+      var markerOrigin = new google.maps.Marker({
+        map: map,
+        position: myLatLngOrigin,
+        title: 'Store'
+      });
+
+      var markerDestination = new google.maps.Marker({
+        map: map,
+        position: this.coords,
+        title: 'Your Address'
+      });
     }
   }
 }

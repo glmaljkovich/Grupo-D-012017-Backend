@@ -39,8 +39,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       </div>
       <list-item v-for="item in list.items" :item="item"></list-item>
     </div>
-    <error></error>
-    <success></success>
+
     <div v-if="register == null" class="bottom-sheet small-12 columns">
       <div class="card-section flex">
         <div class="small-6 medium-4 columns">
@@ -84,7 +83,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.results = response.data;
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     },
     addListItem: function(product){
@@ -100,7 +99,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.query = '';
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     },
     checkout: function(){
@@ -117,7 +116,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.waiting = true;
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     },
     saveList: function(){
@@ -128,10 +127,10 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
 
       HTTP.post('shoppingList/update', list2)
           .then(response => {
-            this.$store.commmit("setMessage", response.data);
+            this.$store.commit("setMessage", response.data);
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     }
   }

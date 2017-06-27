@@ -27960,7 +27960,7 @@ Vue.component('countdown', {
 
 
 Vue.component('error', {
-  template: '\n  <transition name="fade">\n    <div v-if="error" class="alert callout" data-closable="slide-out-right" style="position: absolute; top: 10vh; right: 1rem; z-index: 1;">\n      <button class="close-button small" aria-label="Dismiss alert" type="button" @click="messageRead">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <p style="margin-right: 2rem;"><b>Success:</b> {{error}}</p>\n    </div>\n  </transition>',
+  template: '\n  <transition name="fade">\n    <div v-if="error" class="alert callout" data-closable="slide-out-right" style="position: absolute; top: 10vh; right: 1rem; z-index: 1;">\n      <button class="close-button small" aria-label="Dismiss alert" type="button" @click="messageRead">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <p style="margin-right: 2rem;"><b>Error:</b> {{error}}</p>\n    </div>\n  </transition>',
   computed: {
     error: function error() {
       return this.$store.state.error;
@@ -36881,7 +36881,7 @@ var AdminComponent = Vue.component('admin', {
       HTTP.post('product/upload', data).then(function (response) {
         _this.$store.commit("setMessage", response.data);
       }).catch(function (error) {
-        _this.$store.commmit("setError", error.response.data);
+        _this.$store.commit("setError", error.response.data);
       });
     }
   }
@@ -36921,7 +36921,7 @@ var HistoryComponent = Vue.component('history', {
       HTTP.get('history/' + this.$store.state.user.username + '?size=3&page=' + number).then(function (response) {
         _this.page = response.data;
       }).catch(function (error) {
-        _this.$store.commmit("setError", error.response.data);
+        _this.$store.commit("setError", error.response.data);
       });
     },
     nextPage: function nextPage() {
@@ -36947,11 +36947,11 @@ var User = __webpack_require__(84);
 var LockService = __webpack_require__(287);
 
 var HomeComponent = Vue.component('home', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="content" v-if="user">\n      <div class="small-12 columns">\n        <h4 class="title">My Shopping Lists</h4>\n        <p v-if="lists == [] || lists == \'\' " class="subheader">No tienes listas aun. Crea una nueva!</p>\n      </div>\n      <div>\n        <!-- Shopping List -->\n        <card v-for="list in lists" :shoppinglist="list" v-on:open="open"></card>\n      </div>\n      <button type="button" name="button" class="fab" data-open="add2">+</button>\n    </div>\n    <!-- Login Form -->\n    <login-form v-else v-on:login="login" v-on:register="register" v-on:errorRead="errorRead" ></login-form>\n    <!-- Add shoppinglist modal -->\n    <div class="reveal" id="add2" data-reveal>\n      <h4><b>Add new Shopping List</b></h4>\n      <input type="text" name="name" v-model="newShoppingListName" placeholder="Enter a name...">\n      <button class="close-button" data-close aria-label="Close modal" type="button">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <button class="button hollow alert" @click="createList" data-close>OK</button>\n    </div>\n  </div>\n  ',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="content" v-if="user">\n      <div class="small-12 columns">\n        <h4 class="title">My Shopping Lists</h4>\n        <p v-if="lists == [] || lists == \'\' " class="subheader">No tienes listas aun. Crea una nueva!</p>\n      </div>\n      <div>\n        <!-- Shopping List -->\n        <card v-for="list in lists" :shoppinglist="list" v-on:open="open"></card>\n      </div>\n      <button type="button" name="button" class="fab" data-open="add2">+</button>\n    </div>\n    <!-- Login Form -->\n    <login-form v-else v-on:login="login" v-on:register="register" ></login-form>\n    <!-- Add shoppinglist modal -->\n    <div class="reveal" id="add2" data-reveal>\n      <h4><b>Add new Shopping List</b></h4>\n      <input type="text" name="name" v-model="newShoppingListName" placeholder="Enter a name...">\n      <button class="close-button" data-close aria-label="Close modal" type="button">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <button class="button hollow alert" @click="createList" data-close>OK</button>\n    </div>\n  </div>\n  ',
   data: function data() {
     return {
       sessionService: this.$store.state.sessionService,
-      newShoppingListName: null
+      newShoppingListName: ''
     };
   },
   watch: {
@@ -36992,7 +36992,7 @@ var HomeComponent = Vue.component('home', {
         _this.sessionService.saveSession(user.username, user.token);
         _this.$store.commit('setUser', user);
       }).catch(function (error) {
-        _this.$store.commmit("setError", error.response.data);
+        _this.$store.commit("setError", error.response.data);
       });
     },
     getShoppingLists: function getShoppingLists(user) {
@@ -37001,7 +37001,7 @@ var HomeComponent = Vue.component('home', {
       HTTP.get('shoppingList/' + user.username).then(function (response) {
         _this2.$store.commit('setLists', response.data);
       }).catch(function (error) {
-        _this2.$store.commmit("setError", error.response.data);
+        _this2.$store.commit("setError", error.response.data);
       });
     },
     open: function open(shoppingList) {
@@ -37018,9 +37018,9 @@ var HomeComponent = Vue.component('home', {
       HTTP.post('shoppingList/' + this.user.username, list).then(function (response) {
         list.id = response.data;
         _this3.$store.commit('addList', list);
-        _this3.newShoppingListName = null;
+        _this3.newShoppingListName = '';
       }).catch(function (error) {
-        _this3.$store.commmit("setError", error.response.data);
+        _this3.$store.commit("setError", error.response.data);
       });
     }
   }
@@ -37087,7 +37087,7 @@ module.exports = LockService;
 var HTTP = __webpack_require__(49);
 
 var ShoppingListComponent = Vue.component('shoppinglist', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{list.name}}\n          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>\n        </h4>\n      </div>\n\n      <!-- Search -->\n      <div class="search">\n        <!-- Search Box-->\n        <div class="small-12">\n          <div class="small-11 float-right columns">\n            <input type="search" v-model="query" @input="findProducts" placeholder="Search products...">\n          </div>\n          <div class="small-1 float-right">\n            <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin-top: 4px;"></i>\n          </div>\n        </div>\n        <!-- Results -->\n        <div v-if="results.length > 0 && query != \'\'" class="small-12" style="position: absolute; top: 6rem;">\n          <div class="small-11 float-right columns ">\n            <div class="card">\n              <div class="card-section">\n                <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <list-item v-for="item in list.items" :item="item"></list-item>\n    </div>\n    <error></error>\n    <success></success>\n    <div v-if="register == null" class="bottom-sheet small-12 columns">\n      <div class="card-section flex">\n        <div class="small-6 medium-4 columns">\n          <p class="title">TOTAL</p>\n          <p class="stat">$ {{total}}</p>\n        </div>\n        <div class="small-6 medium-4 columns">\n          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>\n          <span class="float-right">&nbsp;</span>\n          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>\n        </div>\n      </div>\n    </div>\n    <countdown v-if="register" :register="register"></countdown>\n  </div>',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{list.name}}\n          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>\n        </h4>\n      </div>\n\n      <!-- Search -->\n      <div class="search">\n        <!-- Search Box-->\n        <div class="small-12">\n          <div class="small-11 float-right columns">\n            <input type="search" v-model="query" @input="findProducts" placeholder="Search products...">\n          </div>\n          <div class="small-1 float-right">\n            <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin-top: 4px;"></i>\n          </div>\n        </div>\n        <!-- Results -->\n        <div v-if="results.length > 0 && query != \'\'" class="small-12" style="position: absolute; top: 6rem;">\n          <div class="small-11 float-right columns ">\n            <div class="card">\n              <div class="card-section">\n                <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <list-item v-for="item in list.items" :item="item"></list-item>\n    </div>\n\n    <div v-if="register == null" class="bottom-sheet small-12 columns">\n      <div class="card-section flex">\n        <div class="small-6 medium-4 columns">\n          <p class="title">TOTAL</p>\n          <p class="stat">$ {{total}}</p>\n        </div>\n        <div class="small-6 medium-4 columns">\n          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>\n          <span class="float-right">&nbsp;</span>\n          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>\n        </div>\n      </div>\n    </div>\n    <countdown v-if="register" :register="register"></countdown>\n  </div>',
   data: function data() {
     return {
       query: '',
@@ -37116,7 +37116,7 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
       HTTP.get('product?criteria=' + this.query + '&size=5').then(function (response) {
         _this.results = response.data;
       }).catch(function (error) {
-        _this.$store.commmit("setError", error.response.data);
+        _this.$store.commit("setError", error.response.data);
       });
     },
     addListItem: function addListItem(product) {
@@ -37132,7 +37132,7 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
         _this2.results = [];
         _this2.query = '';
       }).catch(function (error) {
-        _this2.$store.commmit("setError", error.response.data);
+        _this2.$store.commit("setError", error.response.data);
       });
     },
     checkout: function checkout() {
@@ -37149,7 +37149,7 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
         _this3.register = response.data;
         _this3.waiting = true;
       }).catch(function (error) {
-        _this3.$store.commmit("setError", error.response.data);
+        _this3.$store.commit("setError", error.response.data);
       });
     },
     saveList: function saveList() {
@@ -37161,9 +37161,9 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
       };
 
       HTTP.post('shoppingList/update', list2).then(function (response) {
-        _this4.$store.commmit("setMessage", response.data);
+        _this4.$store.commit("setMessage", response.data);
       }).catch(function (error) {
-        _this4.$store.commmit("setError", error.response.data);
+        _this4.$store.commit("setError", error.response.data);
       });
     }
   }
@@ -37312,6 +37312,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
 
 var HTTP = __webpack_require__(49);
 exports.default = {
@@ -37321,12 +37324,36 @@ exports.default = {
 
   data: function data() {
     return {
-      profile: null
+      profile: {
+        address: '',
+        name: '',
+        lastName: '',
+        latitude: null,
+        longitude: null
+      },
+      address: { lat: -34.709405, lng: -58.280486 }
     };
   },
   computed: {
     user: function user() {
       return this.$store.state.user;
+    },
+    addressLiteral: function addressLiteral() {
+      if (this.profile.address != '') {
+        return this.profile.address;
+      }
+      return 'Type an address';
+    },
+    coords: function coords() {
+      return {
+        lat: this.profile.latitude,
+        lng: this.profile.longitude
+      };
+    }
+  },
+  watch: {
+    coords: function coords() {
+      this.drawMap();
     }
   },
   created: function created() {
@@ -37335,21 +37362,48 @@ exports.default = {
     HTTP.get("user/profile/" + this.user.username).then(function (response) {
       _this.profile = response.data;
     }).catch(function (error) {
-      _this.$store.commmit("setError", error.response.data);
+      _this.$store.commit("setError", error.response.data);
     });
+  },
+  mounted: function mounted() {
+    this.drawMap();
   },
   methods: {
     updateProfile: function updateProfile() {
       var _this2 = this;
 
-      HTTP.put("user/profile").then(function (response) {
-        _this2.$store.commmit("setMessage", response.data);
+      HTTP.put("user/profile", this.profile).then(function (response) {
+        _this2.$store.commit("setMessage", response.data);
       }).catch(function (error) {
-        _this2.$store.commmit("setError", error.response.data);
+        _this2.$store.commit("setError", error.response.data);
       });
     },
     getAddressData: function getAddressData(data, place) {
       console.log(data);
+      this.address = data;
+      this.profile.address = data.route + " " + data.street_number + ", " + data.locality + ", " + data.administrative_area_level_1 + ", " + data.country;
+      this.profile.latitude = data.latitude;
+      this.profile.longitude = data.longitude;
+    },
+    drawMap: function drawMap() {
+      var myLatLngOrigin = { lat: -34.706543, lng: -58.278538 };
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLngOrigin,
+        scrollwheel: false,
+        zoom: 15
+      });
+
+      var markerOrigin = new google.maps.Marker({
+        map: map,
+        position: myLatLngOrigin,
+        title: 'Store'
+      });
+
+      var markerDestination = new google.maps.Marker({
+        map: map,
+        position: this.coords,
+        title: 'Your Address'
+      });
     }
   }
 };
@@ -41922,7 +41976,7 @@ exports = module.exports = __webpack_require__(305)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -58714,21 +58768,79 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card-section"
   }, [_c('p', {
     staticClass: "subheader uppercase"
-  }, [_vm._v("Personal Information")]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('label', {
+  }, [_vm._v("Personal Information")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "name"
+    }
+  }, [_vm._v("\n            Name\n            "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.profile.name),
+      expression: "profile.name"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "name",
+      "id": "name"
+    },
+    domProps: {
+      "value": (_vm.profile.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.profile.name = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "lastname"
+    }
+  }, [_vm._v("\n            Last name\n            "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.profile.lastName),
+      expression: "profile.lastName"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "name",
+      "id": "lastname"
+    },
+    domProps: {
+      "value": (_vm.profile.lastName)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.profile.lastName = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('label', {
     attrs: {
       "for": "address"
     }
-  }, [_c('vue-google-autocomplete', {
+  }, [_vm._v("\n            Address\n            "), _c('vue-google-autocomplete', {
     attrs: {
       "id": "address",
       "classname": "form-control",
-      "placeholder": "Start typing",
+      "placeholder": _vm.addressLiteral,
       "country": "ar"
     },
     on: {
       "placechanged": _vm.getAddressData
     }
-  })], 1), _vm._v(" "), _c('button', {
+  })], 1), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "width": "100%",
+      "height": "200px"
+    },
+    attrs: {
+      "id": "map"
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('button', {
     staticClass: "button hollow",
     attrs: {
       "href": "#"
@@ -58742,31 +58854,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "aria-hidden": "true"
     }
   })])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "name"
-    }
-  }, [_vm._v("\n            Name\n            "), _c('input', {
-    attrs: {
-      "type": "text",
-      "name": "name",
-      "id": "name"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "lastname"
-    }
-  }, [_vm._v("\n            Last name\n            "), _c('input', {
-    attrs: {
-      "type": "text",
-      "name": "name",
-      "id": "lastname"
-    }
-  }), _c('br')])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

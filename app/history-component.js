@@ -57,7 +57,7 @@ let HistoryComponent = Vue.component('history',{
             this.page = response.data;
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     },
     nextPage: function(){

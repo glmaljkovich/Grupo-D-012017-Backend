@@ -42,7 +42,7 @@ let AdminComponent = Vue.component('admin', {
             this.$store.commit("setMessage", response.data);
           })
           .catch(error => {
-            this.$store.commmit("setError", error.response.data);
+            this.$store.commit("setError", error.response.data);
           });
     }
   }
