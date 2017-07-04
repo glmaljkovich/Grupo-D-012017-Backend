@@ -10,7 +10,7 @@ Vue.component('user-detail', {
     <ul class="menu vertical">
       <li>
         <router-link to="/admin">
-          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard </a>
+          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> {{$t("message.dashboard")}} </a>
         </router-link>
       </li>
       <li>
@@ -29,6 +29,12 @@ Vue.component('user-detail', {
         </router-link>
       </li>
       <li>
+      <select v-model="lang">
+        <option value="es" selected="selected">Español</option>
+        <option value="en">English</option>
+      </select>
+      </li>
+      <li>
       <br>
         <button type="button" name="button" class="button alert float-center" @click="logout">
           <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
@@ -40,6 +46,16 @@ Vue.component('user-detail', {
   methods: {
     logout: function(){
       this.$emit("logout");
+    }
+  },
+  data: function(){
+    return {
+      lang: 'es'
+    };
+  },
+  watch:{
+    lang: function(){
+      this.$i18n.locale = this.lang;
     }
   },
   computed: {

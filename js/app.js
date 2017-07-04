@@ -1,6 +1,7 @@
 
 const RouterComponent = require('../app/router-component.js');
 const Vuex            = require('vuex');
+import VueI18n from 'vue-i18n';
 
 require('../app/card-component.js');
 require('../app/countdown-component.js');
@@ -14,6 +15,7 @@ require('../app/list-item-component.js');
 require('../app/product-component.js');
 
 Vue.use(Vuex);
+Vue.use(VueI18n);
 
 var app = new RouterComponent();
 app.$mount('#app');

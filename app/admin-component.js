@@ -10,7 +10,7 @@ let AdminComponent = Vue.component('admin', {
           <router-link to="/">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
-          Dashboard
+          {{$t("message.dashboard")}}
         </h4>
       </div>
 
