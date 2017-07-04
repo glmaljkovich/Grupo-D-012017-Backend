@@ -13,12 +13,12 @@ let HistoryComponent = Vue.component('history',{
           <router-link to="/">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
-          Historial
+          {{$t("message.history")}}
           <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">
             <a v-if="!page.first" class="float-left" @click="previousPage">
               <i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;
             </a>
-            <span class="float-left"> Pagina {{page.number + 1}} de {{page.totalPages}} </span>
+            <span class="float-left"> {{$t("message.page")}} {{page.number + 1}} {{$t("message.ofM")}} {{page.totalPages}} </span>
             <a v-if="!page.last" class="float-left" @click="nextPage">
               &nbsp; <i class="fa fa-chevron-right" aria-hidden="true"></i>
             </a>

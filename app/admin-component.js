@@ -17,10 +17,10 @@ let AdminComponent = Vue.component('admin', {
       <div class="small-12 columns">
         <div class="card">
           <div class="card-section">
-            <p class="subheader uppercase">Upload Products File</p>
+            <p class="subheader uppercase">{{$t("message.uploadfile")}}</p>
             <br>
             <input type="file" name="file" id="filecito" /><br/><br/>
-            <button class="button" @click="uploadFile"><i class="fa fa-upload" aria-hidden="true"></i> Subir</button>
+            <button class="button" @click="uploadFile"><i class="fa fa-upload" aria-hidden="true"></i> {{$t("message.uploadButton")}}</button>
           </div>
         </div>
 

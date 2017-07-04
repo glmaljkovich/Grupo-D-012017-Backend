@@ -8,25 +8,25 @@
           <router-link to="/">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
-          Profile
+          {{$t("message.profile")}}
         </h4>
       </div>
 
       <div class="small-12 columns">
         <div class="card">
           <div class="card-section">
-            <p class="subheader uppercase">Personal Information</p>
+            <p class="subheader uppercase">{{$t("message.personalInformation")}}</p>
             <br>
             <label for="name">
-              Name
+              {{$t("message.name")}}
               <input type="text" name="name" id="name" v-model="profile.name" />
             </label>
             <label for="lastname">
-              Last name
+              {{$t("message.lastname")}}
               <input type="text" name="name" id="lastname" v-model="profile.lastName" />
             </label>
             <label for="address">
-              Address
+              {{$t("message.address")}}
               <vue-google-autocomplete
                   id="address"
                   classname="form-control"
@@ -37,7 +37,7 @@
             </label>
             <div id="map" style="width: 100%; height: 300px;"></div>
             <br>
-            <button href="#" class="button hollow" @click="updateProfile">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+            <button href="#" class="button hollow" @click="updateProfile">{{$t("message.save")}} <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
           </div>
         </div>
 
@@ -126,17 +126,6 @@ export default{
         zoom: 14
       });
 
-      // var markerOrigin = new google.maps.Marker({
-      //   map: map,
-      //   position: myLatLngOrigin,
-      //   title: 'Store'
-      // });
-      //
-      // var markerDestination = new google.maps.Marker({
-      //   map: map,
-      //   position: this.coords,
-      //   title: 'Your Address'
-      // });
 
       var markerOrigin = new google.maps.InfoWindow({
           content: "<h5>Store</h5>",

@@ -5,8 +5,8 @@ Vue.component('login-form', {
   <div class="small-12 columns">
       <br>
       <div class="text-center subheader" style="margin-top: 10vh;">
-        <h1>Welcome!</h1>
-        <p class="lead"><i>Try logging in or registering to start using the app.</i></p>
+        <h1>{{$t("message.hello")}}</h1>
+        <p class="lead"><i>{{$t("message.trylogin")}}</i></p>
       </div>
       <!-- Login -->
       <div class="small-12 columns text-center">

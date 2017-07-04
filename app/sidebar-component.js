@@ -15,17 +15,17 @@ Vue.component('user-detail', {
       </li>
       <li>
         <router-link to="/home" >
-          <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span>
+          <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> {{$t("message.mylists")}} <span class="alert badge">{{listSize}}</span>
         </router-link>
       </li>
       <li>
         <router-link to="/profile" >
-          <i class="fa fa-user fa-fw" aria-hidden="true"></i> Perfil
+          <i class="fa fa-user fa-fw" aria-hidden="true"></i> {{$t("message.profile")}}
         </router-link>
       </li>
       <li>
         <router-link to="/history">
-          <i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>
+          <i class="fa fa-history fa-fw" aria-hidden="true"></i> {{$t("message.history")}} </a>
         </router-link>
       </li>
       <li>
@@ -37,7 +37,7 @@ Vue.component('user-detail', {
       <li>
       <br>
         <button type="button" name="button" class="button alert float-center" @click="logout">
-          <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+          <i class="fa fa-sign-out" aria-hidden="true"></i> {{$t("message.logout")}}
         </button>
       </li>
     </ul>

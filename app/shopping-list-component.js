@@ -11,7 +11,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
           </router-link>
           {{list.name}}
-          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+          <button href="#" class="button hollow float-right" @click="saveList">{{$t("message.save")}} <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
         </h4>
       </div>
 
@@ -38,7 +38,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>
       <div v-if="products.length > 0" class="small-12 columns recommended" data-equalizer data-equalize-on="medium">
         <h5 class="subheader">
-          Recomendaciones
+          {{$t("message.recommended")}}
         </h5>
         <hr style="margin-top: 0;">
         <product v-for="product in products" :product="product" v-on:addme="addme"></product>
@@ -54,7 +54,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         <div class="small-6 medium-4 columns">
           <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>
           <span class="float-right">&nbsp;</span>
-          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>
+          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> {{$t("message.delivery")}}</button>
         </div>
       </div>
     </div>

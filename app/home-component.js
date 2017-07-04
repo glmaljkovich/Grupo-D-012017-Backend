@@ -7,8 +7,8 @@ let HomeComponent = Vue.component('home',{
   <div class="off-canvas-content" data-off-canvas-content>
     <div class="content" v-if="user">
       <div class="small-12 columns">
-        <h4 class="title">My Shopping Lists</h4>
-        <p v-if="lists == [] || lists == '' " class="subheader">No tienes listas aun. Crea una nueva!</p>
+        <h4 class="title">{{$t("message.mylists")}}</h4>
+        <p v-if="lists == [] || lists == '' " class="subheader">{{$t("message.nolists")}}</p>
       </div>
       <div>
         <!-- Shopping List -->
@@ -20,7 +20,7 @@ let HomeComponent = Vue.component('home',{
     <login-form v-else v-on:login="login" v-on:register="register" ></login-form>
     <!-- Add shoppinglist modal -->
     <div class="reveal" id="add2" data-reveal>
-      <h4><b>Add new Shopping List</b></h4>
+      <h4><b>{{$t("message.addNewSL")}}</b></h4>
       <input type="text" name="name" v-model="newShoppingListName" placeholder="Enter a name...">
       <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>

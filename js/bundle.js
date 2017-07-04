@@ -29254,7 +29254,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 Vue.component('card', {
-  template: '\n  <div class="small-12 medium-4 columns  end">\n    <div class="card card-section shoppinglist" @click="open" style="position: relative;">\n      <div class="float-left icon">\n        <span class="fa-stack fa-lg">\n          <i class="fa fa-circle fa-stack-2x"></i>\n          <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>\n        </span>\n      </div>\n      <div>\n        <h5>{{shoppinglist.name}}</h5>\n        <p>{{shoppinglist.items.length}} products</p>\n      </div>\n      <button @click="deleteme" class="button alert hidden-button" type="button" style="position: absolute; top: 0;">\n        <i class="fa fa-trash" aria-hidden="true"></i>\n      </button>\n    </div>\n  </div>',
+  template: '\n  <div class="small-12 medium-4 columns  end">\n    <div class="card card-section shoppinglist" @click="open" style="position: relative;">\n      <div class="float-left icon">\n        <span class="fa-stack fa-lg">\n          <i class="fa fa-circle fa-stack-2x"></i>\n          <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>\n        </span>\n      </div>\n      <div>\n        <h5>{{shoppinglist.name}}</h5>\n        <p>{{shoppinglist.items.length}} {{$t("message.products")}}</p>\n      </div>\n      <button @click="deleteme" class="button alert hidden-button" type="button" style="position: absolute; top: 0;">\n        <i class="fa fa-trash" aria-hidden="true"></i>\n      </button>\n    </div>\n  </div>',
   props: ['shoppinglist'],
   methods: {
     open: function open() {
@@ -29369,7 +29369,7 @@ module.exports = ListItemComponent;
 var User = __webpack_require__(84);
 
 Vue.component('login-form', {
-  template: '\n  <div class="small-12 columns">\n      <br>\n      <div class="text-center subheader" style="margin-top: 10vh;">\n        <h1>Welcome!</h1>\n        <p class="lead"><i>Try logging in or registering to start using the app.</i></p>\n      </div>\n      <!-- Login -->\n      <div class="small-12 columns text-center">\n          <br>\n          <button type="button" class="button large hollow" @click="login">Login</button>\n      </div>\n  </div>\n',
+  template: '\n  <div class="small-12 columns">\n      <br>\n      <div class="text-center subheader" style="margin-top: 10vh;">\n        <h1>{{$t("message.hello")}}</h1>\n        <p class="lead"><i>{{$t("message.trylogin")}}</i></p>\n      </div>\n      <!-- Login -->\n      <div class="small-12 columns text-center">\n          <br>\n          <button type="button" class="button large hollow" @click="login">Login</button>\n      </div>\n  </div>\n',
   methods: {
     login: function login() {
       this.$emit("login");
@@ -29385,7 +29385,7 @@ Vue.component('login-form', {
 
 
 var ListItemComponent = Vue.component('product', {
-  template: '\n  <div class="small-12 large-3 end columns">\n    <div class="card" data-equalizer-watch>\n      <img style="height: 200px;" src="http://lorempixel.com/400/200/food">\n      <div class="card-section">\n        <h5>{{product.name}}</h5>\n        <p>$ {{product.price.integer}}.{{product.price.decimal}}</p>\n        <button @click="addme" type="button" class="button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> ADD</button>\n      </div>\n    </div>\n  </div>',
+  template: '\n  <div class="small-12 large-3 end columns">\n    <div class="card" data-equalizer-watch>\n      <img src="http://lorempixel.com/400/200/food">\n      <div class="card-section">\n        <h5>{{product.name}}</h5>\n        <p>$ {{product.price.integer}}.{{product.price.decimal}}</p>\n        <button @click="addme" type="button" class="button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> ADD</button>\n      </div>\n    </div>\n  </div>',
   props: ['product'],
   mounted: function mounted() {
     $('.recommended').foundation();
@@ -29473,7 +29473,7 @@ module.exports = RouterComponent;
 
 
 Vue.component('user-detail', {
-  template: '\n  <div class="user-detail">\n    <div class="text-center">\n      <br>\n      <h1><i class="fa fa-user-circle" aria-hidden="true"></i></h1>\n      <h4>@{{user.username}}</h4>\n    </div>\n    <ul class="menu vertical">\n      <li>\n        <router-link to="/admin">\n          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> {{$t("message.dashboard")}} </a>\n        </router-link>\n      </li>\n      <li>\n        <router-link to="/home" >\n          <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> Mis listas <span class="alert badge">{{listSize}}</span>\n        </router-link>\n      </li>\n      <li>\n        <router-link to="/profile" >\n          <i class="fa fa-user fa-fw" aria-hidden="true"></i> Perfil\n        </router-link>\n      </li>\n      <li>\n        <router-link to="/history">\n          <i class="fa fa-history fa-fw" aria-hidden="true"></i> Historial </a>\n        </router-link>\n      </li>\n      <li>\n      <select v-model="lang">\n        <option value="es" selected="selected">Espa\xF1ol</option>\n        <option value="en">English</option>\n      </select>\n      </li>\n      <li>\n      <br>\n        <button type="button" name="button" class="button alert float-center" @click="logout">\n          <i class="fa fa-sign-out" aria-hidden="true"></i> Logout\n        </button>\n      </li>\n    </ul>\n  </div>',
+  template: '\n  <div class="user-detail">\n    <div class="text-center">\n      <br>\n      <h1><i class="fa fa-user-circle" aria-hidden="true"></i></h1>\n      <h4>@{{user.username}}</h4>\n    </div>\n    <ul class="menu vertical">\n      <li>\n        <router-link to="/admin">\n          <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> {{$t("message.dashboard")}} </a>\n        </router-link>\n      </li>\n      <li>\n        <router-link to="/home" >\n          <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i> {{$t("message.mylists")}} <span class="alert badge">{{listSize}}</span>\n        </router-link>\n      </li>\n      <li>\n        <router-link to="/profile" >\n          <i class="fa fa-user fa-fw" aria-hidden="true"></i> {{$t("message.profile")}}\n        </router-link>\n      </li>\n      <li>\n        <router-link to="/history">\n          <i class="fa fa-history fa-fw" aria-hidden="true"></i> {{$t("message.history")}} </a>\n        </router-link>\n      </li>\n      <li>\n      <select v-model="lang">\n        <option value="es" selected="selected">Espa\xF1ol</option>\n        <option value="en">English</option>\n      </select>\n      </li>\n      <li>\n      <br>\n        <button type="button" name="button" class="button alert float-center" @click="logout">\n          <i class="fa fa-sign-out" aria-hidden="true"></i> {{$t("message.logout")}}\n        </button>\n      </li>\n    </ul>\n  </div>',
   props: ['user'],
   methods: {
     logout: function logout() {
@@ -38252,7 +38252,7 @@ module.exports = function spread(callback) {
 var HTTP = __webpack_require__(49);
 
 var AdminComponent = Vue.component('admin', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{$t("message.dashboard")}}\n        </h4>\n      </div>\n\n      <div class="small-12 columns">\n        <div class="card">\n          <div class="card-section">\n            <p class="subheader uppercase">Upload Products File</p>\n            <br>\n            <input type="file" name="file" id="filecito" /><br/><br/>\n            <button class="button" @click="uploadFile"><i class="fa fa-upload" aria-hidden="true"></i> Subir</button>\n          </div>\n        </div>\n\n      </div>\n    </div>\n  </div>',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{$t("message.dashboard")}}\n        </h4>\n      </div>\n\n      <div class="small-12 columns">\n        <div class="card">\n          <div class="card-section">\n            <p class="subheader uppercase">{{$t("message.uploadfile")}}</p>\n            <br>\n            <input type="file" name="file" id="filecito" /><br/><br/>\n            <button class="button" @click="uploadFile"><i class="fa fa-upload" aria-hidden="true"></i> {{$t("message.uploadButton")}}</button>\n          </div>\n        </div>\n\n      </div>\n    </div>\n  </div>',
   computed: {
     user: function user() {
       return this.$store.state.user;
@@ -38289,7 +38289,7 @@ var HTTP = __webpack_require__(49);
 
 
 var HistoryComponent = Vue.component('history', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          Historial\n          <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">\n            <a v-if="!page.first" class="float-left" @click="previousPage">\n              <i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;\n            </a>\n            <span class="float-left"> Pagina {{page.number + 1}} de {{page.totalPages}} </span>\n            <a v-if="!page.last" class="float-left" @click="nextPage">\n              &nbsp; <i class="fa fa-chevron-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </h4>\n      </div>\n\n      <!-- Lists -->\n      <div v-if="page && page.content.length > 0" class="small-12 columns">\n        <ul class="accordion" data-allow-all-closed="true" id="history-lists" data-accordion>\n          <history-item v-for="list in page.content" :list="list"></history-item>\n        </ul>\n      </div>\n\n      <div v-else class="small-12 columns">\n        <h4 class="subheader">No hay listas en su historial.</h4>\n      </div>\n    </div>\n\n  </div>',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{$t("message.history")}}\n          <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">\n            <a v-if="!page.first" class="float-left" @click="previousPage">\n              <i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;\n            </a>\n            <span class="float-left"> {{$t("message.page")}} {{page.number + 1}} {{$t("message.ofM")}} {{page.totalPages}} </span>\n            <a v-if="!page.last" class="float-left" @click="nextPage">\n              &nbsp; <i class="fa fa-chevron-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </h4>\n      </div>\n\n      <!-- Lists -->\n      <div v-if="page && page.content.length > 0" class="small-12 columns">\n        <ul class="accordion" data-allow-all-closed="true" id="history-lists" data-accordion>\n          <history-item v-for="list in page.content" :list="list"></history-item>\n        </ul>\n      </div>\n\n      <div v-else class="small-12 columns">\n        <h4 class="subheader">No hay listas en su historial.</h4>\n      </div>\n    </div>\n\n  </div>',
   data: function data() {
     return {
       page: null
@@ -38334,7 +38334,7 @@ var User = __webpack_require__(84);
 var LockService = __webpack_require__(290);
 
 var HomeComponent = Vue.component('home', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="content" v-if="user">\n      <div class="small-12 columns">\n        <h4 class="title">My Shopping Lists</h4>\n        <p v-if="lists == [] || lists == \'\' " class="subheader">No tienes listas aun. Crea una nueva!</p>\n      </div>\n      <div>\n        <!-- Shopping List -->\n        <card v-for="list in lists" :shoppinglist="list" v-on:open="open" v-on:deleteme="deleteList"></card>\n      </div>\n      <button type="button" name="button" class="fab" data-open="add2">+</button>\n    </div>\n    <!-- Login Form -->\n    <login-form v-else v-on:login="login" v-on:register="register" ></login-form>\n    <!-- Add shoppinglist modal -->\n    <div class="reveal" id="add2" data-reveal>\n      <h4><b>Add new Shopping List</b></h4>\n      <input type="text" name="name" v-model="newShoppingListName" placeholder="Enter a name...">\n      <button class="close-button" data-close aria-label="Close modal" type="button">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <button class="button hollow alert" @click="createList" data-close>OK</button>\n    </div>\n  </div>\n  ',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="content" v-if="user">\n      <div class="small-12 columns">\n        <h4 class="title">{{$t("message.mylists")}}</h4>\n        <p v-if="lists == [] || lists == \'\' " class="subheader">{{$t("message.nolists")}}</p>\n      </div>\n      <div>\n        <!-- Shopping List -->\n        <card v-for="list in lists" :shoppinglist="list" v-on:open="open" v-on:deleteme="deleteList"></card>\n      </div>\n      <button type="button" name="button" class="fab" data-open="add2">+</button>\n    </div>\n    <!-- Login Form -->\n    <login-form v-else v-on:login="login" v-on:register="register" ></login-form>\n    <!-- Add shoppinglist modal -->\n    <div class="reveal" id="add2" data-reveal>\n      <h4><b>{{$t("message.addNewSL")}}</b></h4>\n      <input type="text" name="name" v-model="newShoppingListName" placeholder="Enter a name...">\n      <button class="close-button" data-close aria-label="Close modal" type="button">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <button class="button hollow alert" @click="createList" data-close>OK</button>\n    </div>\n  </div>\n  ',
   data: function data() {
     return {
       sessionService: this.$store.state.sessionService,
@@ -38441,14 +38441,52 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var messages = {
   en: {
     message: {
-      hello: 'hello world',
-      dashboard: 'Dashboard'
+      hello: 'Welcome!',
+      dashboard: 'Dashboard',
+      mylists: 'My Shopping Lists',
+      uploadfile: 'Upload Products File',
+      profile: 'Profile',
+      history: 'History',
+      trylogin: 'Try logging in or registering to start using the app.',
+      nolists: 'Yo have no lists yet. Make a new one!',
+      uploadButton: 'Upload',
+      page: 'Page',
+      ofM: 'of',
+      addNewSL: 'Add New Shopping List',
+      products: 'products',
+      save: 'Save',
+      recommended: 'Recommended',
+      delivery: 'Delivery',
+      personalInformation: 'Personal Information',
+      name: 'Name',
+      lastname: 'Last Name',
+      address: 'Address',
+      logout: 'Logout'
     }
   },
   es: {
     message: {
-      hello: 'hola',
-      dashboard: 'Tablero'
+      hello: 'Bienvenido!',
+      dashboard: 'Tablero',
+      mylists: 'Mis Listas de Compras',
+      uploadfile: 'Subir Archivo de Productos',
+      profile: 'Perfil',
+      history: 'Historial',
+      trylogin: 'Trata de iniciar sesion o registrarte para comenzar a usar la app.',
+      nolists: 'No tienes listas aun. Crea una nueva!',
+      uploadButton: 'Subir',
+      page: 'Página',
+      ofM: 'de',
+      addNewSL: 'Agregar Nueva Lista de Compras',
+      products: 'productos',
+      save: 'Guardar',
+      recommended: 'Recomendados',
+      delivery: 'Envio a domicilio',
+      personalInformation: 'Informacion Personal',
+      name: 'Nombre',
+      lastname: 'Apellido',
+      address: 'Direccion',
+      logout: 'Cerrar Sesion'
     }
   }
 };
@@ -38519,7 +38557,7 @@ module.exports = LockService;
 var HTTP = __webpack_require__(49);
 
 var ShoppingListComponent = Vue.component('shoppinglist', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{list.name}}\n          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>\n        </h4>\n      </div>\n\n      <!-- Search -->\n      <div class="search">\n        <!-- Search Box-->\n        <div class="small-12">\n          <div class="small-12 float-right columns" style="display: flex;">\n          <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin: 4px 6px;"></i>\n            <input style="width: auto; flex: 2;" type="search" v-model="query" @input="findProducts" placeholder="Search products...">\n          </div>\n        </div>\n        <!-- Results -->\n        <div v-if="results.length > 0 && query != \'\'" class="small-12" style="position: absolute; top: 6rem; z-index:1;">\n          <div class="small-12 float-right columns ">\n            <div class="card">\n              <div class="card-section">\n                <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>\n      <div v-if="products.length > 0" class="small-12 columns recommended" data-equalizer data-equalize-on="medium">\n        <h5 class="subheader">\n          Recomendaciones\n        </h5>\n        <hr style="margin-top: 0;">\n        <product v-for="product in products" :product="product" v-on:addme="addme"></product>\n      </div>\n    </div>\n\n    <div v-if="register == null" class="bottom-sheet small-12 columns">\n      <div class="card-section flex">\n        <div class="small-6 medium-4 columns">\n          <p class="title">TOTAL</p>\n          <p class="stat">$ {{total}}</p>\n        </div>\n        <div class="small-6 medium-4 columns">\n          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>\n          <span class="float-right">&nbsp;</span>\n          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>\n        </div>\n      </div>\n    </div>\n    <countdown v-if="register" :register="register" v-on:register-ready="registerReady"></countdown>\n  </div>',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{list.name}}\n          <button href="#" class="button hollow float-right" @click="saveList">{{$t("message.save")}} <i class="fa fa-floppy-o" aria-hidden="true"></i></button>\n        </h4>\n      </div>\n\n      <!-- Search -->\n      <div class="search">\n        <!-- Search Box-->\n        <div class="small-12">\n          <div class="small-12 float-right columns" style="display: flex;">\n          <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin: 4px 6px;"></i>\n            <input style="width: auto; flex: 2;" type="search" v-model="query" @input="findProducts" placeholder="Search products...">\n          </div>\n        </div>\n        <!-- Results -->\n        <div v-if="results.length > 0 && query != \'\'" class="small-12" style="position: absolute; top: 6rem; z-index:1;">\n          <div class="small-12 float-right columns ">\n            <div class="card">\n              <div class="card-section">\n                <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>\n      <div v-if="products.length > 0" class="small-12 columns recommended" data-equalizer data-equalize-on="medium">\n        <h5 class="subheader">\n          {{$t("message.recommended")}}\n        </h5>\n        <hr style="margin-top: 0;">\n        <product v-for="product in products" :product="product" v-on:addme="addme"></product>\n      </div>\n    </div>\n\n    <div v-if="register == null" class="bottom-sheet small-12 columns">\n      <div class="card-section flex">\n        <div class="small-6 medium-4 columns">\n          <p class="title">TOTAL</p>\n          <p class="stat">$ {{total}}</p>\n        </div>\n        <div class="small-6 medium-4 columns">\n          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>\n          <span class="float-right">&nbsp;</span>\n          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> {{$t("message.delivery")}}</button>\n        </div>\n      </div>\n    </div>\n    <countdown v-if="register" :register="register" v-on:register-ready="registerReady"></countdown>\n  </div>',
   data: function data() {
     return {
       query: '',
@@ -38862,18 +38900,6 @@ exports.default = {
         scrollwheel: false,
         zoom: 14
       });
-
-      // var markerOrigin = new google.maps.Marker({
-      //   map: map,
-      //   position: myLatLngOrigin,
-      //   title: 'Store'
-      // });
-      //
-      // var markerDestination = new google.maps.Marker({
-      //   map: map,
-      //   position: this.coords,
-      //   title: 'Your Address'
-      // });
 
       var markerOrigin = new google.maps.InfoWindow({
         content: "<h5>Store</h5>",
@@ -43476,7 +43502,7 @@ exports = module.exports = __webpack_require__(308)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -60260,7 +60286,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })]), _vm._v("\n        Profile\n      ")], 1)]), _vm._v(" "), _c('div', {
+  })]), _vm._v("\n        " + _vm._s(_vm.$t("message.profile")) + "\n      ")], 1)]), _vm._v(" "), _c('div', {
     staticClass: "small-12 columns"
   }, [_c('div', {
     staticClass: "card"
@@ -60268,11 +60294,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card-section"
   }, [_c('p', {
     staticClass: "subheader uppercase"
-  }, [_vm._v("Personal Information")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+  }, [_vm._v(_vm._s(_vm.$t("message.personalInformation")))]), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
     attrs: {
       "for": "name"
     }
-  }, [_vm._v("\n            Name\n            "), _c('input', {
+  }, [_vm._v("\n            " + _vm._s(_vm.$t("message.name")) + "\n            "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -60297,7 +60323,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "lastname"
     }
-  }, [_vm._v("\n            Last name\n            "), _c('input', {
+  }, [_vm._v("\n            " + _vm._s(_vm.$t("message.lastname")) + "\n            "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -60322,7 +60348,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "address"
     }
-  }, [_vm._v("\n            Address\n            "), _c('vue-google-autocomplete', {
+  }, [_vm._v("\n            " + _vm._s(_vm.$t("message.address")) + "\n            "), _c('vue-google-autocomplete', {
     attrs: {
       "id": "address",
       "classname": "form-control",
@@ -60348,7 +60374,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.updateProfile
     }
-  }, [_vm._v("Save "), _c('i', {
+  }, [_vm._v(_vm._s(_vm.$t("message.save")) + " "), _c('i', {
     staticClass: "fa fa-floppy-o",
     attrs: {
       "aria-hidden": "true"

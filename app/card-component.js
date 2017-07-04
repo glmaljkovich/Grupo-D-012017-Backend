@@ -11,7 +11,7 @@ Vue.component('card', {
       </div>
       <div>
         <h5>{{shoppinglist.name}}</h5>
-        <p>{{shoppinglist.items.length}} products</p>
+        <p>{{shoppinglist.items.length}} {{$t("message.products")}}</p>
       </div>
       <button @click="deleteme" class="button alert hidden-button" type="button" style="position: absolute; top: 0;">
         <i class="fa fa-trash" aria-hidden="true"></i>
