@@ -27,7 +27,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           </div>
         </div>
         <!-- Results -->
-        <div v-if="results.length > 0 && query != ''" class="small-12" style="position: absolute; top: 6rem;">
+        <div v-if="results.length > 0 && query != ''" class="small-12" style="position: absolute; top: 6rem; z-index:1;">
           <div class="small-11 float-right columns ">
             <div class="card">
               <div class="card-section">
@@ -37,7 +37,14 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           </div>
         </div>
       </div>
-      <list-item v-for="item in list.items" :item="item"></list-item>
+      <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>
+      <div class="small-12 columns recommended" data-equalizer data-equalize-on="medium">
+        <h5 class="subheader">
+          Recomendaciones
+        </h5>
+        <hr style="margin-top: 0;">
+        <product v-for="product in products" :product="product"></product>
+      </div>
     </div>
 
     <div v-if="register == null" class="bottom-sheet small-12 columns">
@@ -60,7 +67,45 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       query: '',
       results: [],
       register: null,
-      waiting: false
+      waiting: false,
+      products: [
+        {
+          "name": "Coca-Cola x2.25L",
+          "brand": "Coca-Cola",
+          "stock": 10000,
+          "price": {
+            "integer": 55,
+            "decimal": 25
+          },
+          "image": "",
+          "category": "Gaseosas",
+          "time": 1
+        },
+        {
+          "name": "Fernet Branca x 750cc",
+          "brand": "Branca",
+          "stock": 10000,
+          "price": {
+            "integer": 175,
+            "decimal": 25
+          },
+          "image": "",
+          "category": "Bebidas Alcoholicas",
+          "time": 2
+        },
+        {
+          "name": "Papitas Lays x300g",
+          "brand": "Lays",
+          "stock": 10000,
+          "price": {
+            "integer": 50,
+            "decimal": 75
+          },
+          "image": "http://lorempixel.com/200/200/food",
+          "category": "Snacks",
+          "time": 2
+        }
+      ]
     };
   },
   computed: {
@@ -86,6 +131,9 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.$store.commit("setError", error.response.data);
           });
     },
+    getRecommendedProducts: function(){
+
+    },
     addListItem: function(product){
       let item = {
         quantity: 1,
@@ -102,6 +150,10 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.$store.commit("setError", error.response.data);
           });
     },
+    deleteItem: function(item){
+      this.list.items = this.list.items.filter(elem => elem !== item);
+      this.saveList();
+    },
     checkout: function(){
       let request = {
         client: {
@@ -109,6 +161,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         },
         shoppingList: this.list
       };
+
+      console.log(JSON.stringify(request));
 
       HTTP.post('checkout', request)
           .then(response => {

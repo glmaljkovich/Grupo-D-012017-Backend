@@ -12,7 +12,7 @@ let HomeComponent = Vue.component('home',{
       </div>
       <div>
         <!-- Shopping List -->
-        <card v-for="list in lists" :shoppinglist="list" v-on:open="open"></card>
+        <card v-for="list in lists" :shoppinglist="list" v-on:open="open" v-on:deleteme="deleteList"></card>
       </div>
       <button type="button" name="button" class="fab" data-open="add2">+</button>
     </div>
@@ -87,6 +87,16 @@ let HomeComponent = Vue.component('home',{
     },
     open: function(shoppingList){
       this.$store.commit('setShoppingList', shoppingList);
+    },
+    deleteList: function(list){
+      HTTP.delete('shoppingList/delete/' + list.id)
+          .then(response => {
+            this.$store.commit('setMessage', response.data);
+            this.$store.commit('removeList', list);
+          })
+          .catch(error => {
+            this.$store.commit("setError", error.response.data);
+          });
     },
     createList: function(){
       let list = {

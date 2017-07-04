@@ -45,7 +45,7 @@ html, body{
 }
 
 .accordion-title{
-  text-transform: capitalize; 
+  text-transform: capitalize;
 }
 
 .title{
@@ -56,6 +56,18 @@ html, body{
   text-transform: uppercase;
 }
 
+.card{
+  .hidden-button{
+    right: -100px;
+    transition: all 0.3s;
+  }
+  &:hover .hidden-button{
+    right: 0;
+  }
+}
+
+
+
 .bottom-sheet{
   position: fixed;
   bottom: 0;
@@ -63,6 +75,7 @@ html, body{
   background-color: white;
   display: flex;
   flex-direction: row;
+  box-shadow: 3px 3px 6px #333;
 }
 
 .flex{
@@ -90,6 +103,14 @@ html, body{
 
     .icon {
       margin-right: 0.5rem;
+    }
+
+    .hidden-button{
+      right: -100px;
+      transition: all 0.3s;
+    }
+    &:hover .hidden-button{
+      right: 0;
     }
 }
 

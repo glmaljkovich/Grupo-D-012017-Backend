@@ -11,7 +11,7 @@ require('../app/result-component.js');
 require('../app/sidebar-component.js');
 require('../app/login-form-component.js');
 require('../app/list-item-component.js');
-
+require('../app/product-component.js');
 
 Vue.use(Vuex);
 

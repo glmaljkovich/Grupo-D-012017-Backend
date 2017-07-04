@@ -32,6 +32,9 @@ let store = new Vuex.Store({
     addList(state, list){
       state.lists.push(list);
     },
+    removeList(state, list){
+      state.lists = state.lists.filter(elem => elem !== list);
+    },
     setShoppingList(state, list){
       state.shoppinglist = list;
     },

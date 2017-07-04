@@ -3,7 +3,7 @@ let ListItemComponent = Vue.component('list-item', {
   template: `
   <div class="small-12 large-6 end columns">
     <div class="card list">
-      <div class="card-section">
+      <div class="card-section" style="position: relative;">
         <div class="small-3 columns">
           <img src="http://lorempixel.com/200/200/food" class="img-rounded" alt="">
         </div>
@@ -20,13 +20,16 @@ let ListItemComponent = Vue.component('list-item', {
             <input type="number" v-model="item.quantity">
           </div>
         </div>
+        <button @click="deleteme" class="button alert hidden-button" type="button" style="position: absolute; top: 0;">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </div>`,
   props: ['item'],
   methods: {
-    open: function(){
-
+    deleteme: function(){
+      this.$emit('deleteme', this.item);
     }
   }
 });

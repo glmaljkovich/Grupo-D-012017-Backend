@@ -35,7 +35,7 @@
                   v-on:placechanged="getAddressData">
               </vue-google-autocomplete>
             </label>
-            <div id="map" style="width: 100%; height: 200px;"></div>
+            <div id="map" style="width: 100%; height: 300px;"></div>
             <br>
             <button href="#" class="button hollow" @click="updateProfile">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
           </div>
@@ -123,20 +123,52 @@ export default{
       var map = new google.maps.Map(document.getElementById('map'), {
         center: myLatLngOrigin,
         scrollwheel: false,
-        zoom: 15
+        zoom: 14
       });
 
-      var markerOrigin = new google.maps.Marker({
-        map: map,
-        position: myLatLngOrigin,
-        title: 'Store'
+      // var markerOrigin = new google.maps.Marker({
+      //   map: map,
+      //   position: myLatLngOrigin,
+      //   title: 'Store'
+      // });
+      //
+      // var markerDestination = new google.maps.Marker({
+      //   map: map,
+      //   position: this.coords,
+      //   title: 'Your Address'
+      // });
+
+      var markerOrigin = new google.maps.InfoWindow({
+          content: "<h5>Store</h5>",
+          position: myLatLngOrigin
       });
 
-      var markerDestination = new google.maps.Marker({
-        map: map,
-        position: this.coords,
-        title: 'Your Address'
+      var markerDestination = new google.maps.InfoWindow({
+          content: "<h5> Your Home </h5>" + "<p>"+ this.profile.address +"</p>",
+          position: this.coords
       });
+
+      markerOrigin.open(map);
+      markerDestination.open(map);
+
+
+      var directionsService = new google.maps.DirectionsService;
+      var directionsDisplay = new google.maps.DirectionsRenderer;
+
+      directionsDisplay.setMap(map);
+
+      directionsService.route({
+          origin: myLatLngOrigin,
+          destination: this.coords,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+
     }
   }
 }
