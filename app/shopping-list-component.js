@@ -19,16 +19,14 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       <div class="search">
         <!-- Search Box-->
         <div class="small-12">
-          <div class="small-11 float-right columns">
-            <input type="search" v-model="query" @input="findProducts" placeholder="Search products...">
-          </div>
-          <div class="small-1 float-right">
-            <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin-top: 4px;"></i>
+          <div class="small-12 float-right columns" style="display: flex;">
+          <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin: 4px 6px;"></i>
+            <input style="width: auto; flex: 2;" type="search" v-model="query" @input="findProducts" placeholder="Search products...">
           </div>
         </div>
         <!-- Results -->
         <div v-if="results.length > 0 && query != ''" class="small-12" style="position: absolute; top: 6rem; z-index:1;">
-          <div class="small-11 float-right columns ">
+          <div class="small-12 float-right columns ">
             <div class="card">
               <div class="card-section">
                 <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>
@@ -38,12 +36,12 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         </div>
       </div>
       <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>
-      <div class="small-12 columns recommended" data-equalizer data-equalize-on="medium">
+      <div v-if="products.length > 0" class="small-12 columns recommended" data-equalizer data-equalize-on="medium">
         <h5 class="subheader">
           Recomendaciones
         </h5>
         <hr style="margin-top: 0;">
-        <product v-for="product in products" :product="product"></product>
+        <product v-for="product in products" :product="product" v-on:addme="addme"></product>
       </div>
     </div>
 
@@ -60,7 +58,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         </div>
       </div>
     </div>
-    <countdown v-if="register" :register="register"></countdown>
+    <countdown v-if="register" :register="register" v-on:register-ready="registerReady"></countdown>
   </div>`,
   data: function(){
     return {
@@ -68,45 +66,11 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
       results: [],
       register: null,
       waiting: false,
-      products: [
-        {
-          "name": "Coca-Cola x2.25L",
-          "brand": "Coca-Cola",
-          "stock": 10000,
-          "price": {
-            "integer": 55,
-            "decimal": 25
-          },
-          "image": "",
-          "category": "Gaseosas",
-          "time": 1
-        },
-        {
-          "name": "Fernet Branca x 750cc",
-          "brand": "Branca",
-          "stock": 10000,
-          "price": {
-            "integer": 175,
-            "decimal": 25
-          },
-          "image": "",
-          "category": "Bebidas Alcoholicas",
-          "time": 2
-        },
-        {
-          "name": "Papitas Lays x300g",
-          "brand": "Lays",
-          "stock": 10000,
-          "price": {
-            "integer": 50,
-            "decimal": 75
-          },
-          "image": "http://lorempixel.com/200/200/food",
-          "category": "Snacks",
-          "time": 2
-        }
-      ]
+      products: []
     };
+  },
+  mounted: function(){
+    this.getRecommendedProducts();
   },
   computed: {
     total: function(){
@@ -131,8 +95,21 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.$store.commit("setError", error.response.data);
           });
     },
+    addme: function(product){
+      this.addListItem(product);
+      this.products = this.products.filter(elem => elem != product);
+    },
     getRecommendedProducts: function(){
-
+      HTTP.get('shoppingList/recommended/' + this.list.id)
+          .then(response => {
+            this.products = response.data;
+          })
+          .catch(error => {
+            this.$store.commit("setError", error.response.data);
+          });
+    },
+    registerReady: function(){
+      this.$store.commit("setMessage", "Ya puedes pasar a la caja registradora.");
     },
     addListItem: function(product){
       let item = {
@@ -145,6 +122,7 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
             this.list.items.push(item);
             this.results = [];
             this.query = '';
+            this.getRecommendedProducts();
           })
           .catch(error => {
             this.$store.commit("setError", error.response.data);
@@ -162,8 +140,6 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
         shoppingList: this.list
       };
 
-      console.log(JSON.stringify(request));
-
       HTTP.post('checkout', request)
           .then(response => {
             this.register = response.data;
@@ -174,12 +150,8 @@ let ShoppingListComponent = Vue.component('shoppinglist', {
           });
     },
     saveList: function(){
-      let list2 = this.list;
-      list2.user = {
-        username: this.user.username
-      };
 
-      HTTP.post('shoppingList/update', list2)
+      HTTP.post('shoppingList/update', this.list)
           .then(response => {
             this.$store.commit("setMessage", response.data);
           })

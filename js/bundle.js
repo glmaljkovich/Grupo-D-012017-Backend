@@ -27938,8 +27938,13 @@ Vue.component('card', {
 
 
 Vue.component('countdown', {
-  template: '\n  <div class="bottom-sheet small-12 columns">\n    <div class="card-section flex">\n      <div class="small-6 medium-4 columns">\n        <p class="title">Caja {{register.id}}</p>\n        <h5 id="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Espera: {{register.waitingTime}}</h5>\n      </div>\n      <div class="small-6 medium-4 columns">\n        &nbsp;\n      </div>\n    </div>\n  </div>',
+  template: '\n  <div class="bottom-sheet small-12 columns">\n    <div class="card-section flex">\n      <div class="small-6 medium-4 columns">\n        <p class="title">Caja {{register.id}}</p>\n        <h5 v-if="waiting" id="time"><i class="fa fa-clock-o" aria-hidden="true"></i> Espera: {{register.waitingTime}}</h5>\n        <p v-else><i class="fa fa-check-circle" aria-hidden="true"></i> Ya puedes pasar por la caja</p>\n      </div>\n      <div class="small-6 medium-4 columns">\n        &nbsp;\n      </div>\n    </div>\n  </div>',
   props: ['register'],
+  data: function data() {
+    return {
+      waiting: true
+    };
+  },
   mounted: function mounted() {
     this.countDown();
   },
@@ -27950,6 +27955,9 @@ Vue.component('countdown', {
       date.setSeconds(date.getSeconds() + this.register.waitingTime);
       $('h5#time').countdown(date).on('update.countdown', function (event) {
         that.register.waitingTime = event.strftime('%M min %S seg');
+      }).on('finish.countdown', function () {
+        that.waiting = false;
+        that.$emit("register-ready");
       });
     }
   }
@@ -28003,7 +28011,7 @@ Vue.component('history-item', {
 
 
 var ListItemComponent = Vue.component('list-item', {
-  template: '\n  <div class="small-12 large-6 end columns">\n    <div class="card list">\n      <div class="card-section" style="position: relative;">\n        <div class="small-3 columns">\n          <img src="http://lorempixel.com/200/200/food" class="img-rounded" alt="">\n        </div>\n        <div class="small-9  columns">\n          <div class="small-12 columns">\n            <h5>{{item.product.name}}</h5>\n          </div>\n          <div class="small-6 large-4 xlarge-3 end columns">\n            <p class="subheader">UNIDAD</p>\n            <p>$ {{item.product.price.integer}}.{{item.product.price.decimal}}</p>\n          </div>\n          <div class="small-6 large-4 xlarge-3 end columns">\n            <p class="subheader">CANTIDAD</p>\n            <input type="number" v-model="item.quantity">\n          </div>\n        </div>\n        <button @click="deleteme" class="button alert hidden-button" type="button" style="position: absolute; top: 0;">\n          <i class="fa fa-trash" aria-hidden="true"></i>\n        </button>\n      </div>\n    </div>\n  </div>',
+  template: '\n  <div class="small-12 large-6 end columns">\n    <div class="card list">\n      <div class="card-section" style="position: relative;">\n        <div class="small-3 columns">\n          <img style="height: 200px; width: 200px;" src="http://lorempixel.com/200/200/food" class="img-rounded" alt="">\n        </div>\n        <div class="small-9  columns">\n          <div class="small-12 columns">\n            <h5>{{item.product.name}}</h5>\n          </div>\n          <div class="small-6 large-4 xlarge-3 end columns">\n            <p class="subheader">UNIDAD</p>\n            <p>$ {{item.product.price.integer}}.{{item.product.price.decimal}}</p>\n          </div>\n          <div class="small-6 large-4 xlarge-3 end columns">\n            <p class="subheader">CANTIDAD</p>\n            <input type="number" v-model="item.quantity">\n          </div>\n        </div>\n        <button @click="deleteme" class="button alert hidden-button" type="button" style="position: absolute; top: 0;">\n          <i class="fa fa-trash" aria-hidden="true"></i>\n        </button>\n      </div>\n    </div>\n  </div>',
   props: ['item'],
   methods: {
     deleteme: function deleteme() {
@@ -28040,14 +28048,17 @@ Vue.component('login-form', {
 
 
 var ListItemComponent = Vue.component('product', {
-  template: '\n  <div class="small-12 large-3 end columns">\n    <div class="card" data-equalizer-watch>\n      <img src="http://lorempixel.com/400/200/food">\n      <div class="card-section">\n        <h5>{{product.name}}</h5>\n        <p>$ {{product.price.integer}}.{{product.price.decimal}}</p>\n      </div>\n    </div>\n  </div>',
+  template: '\n  <div class="small-12 large-3 end columns">\n    <div class="card" data-equalizer-watch>\n      <img style="height: 200px;" src="http://lorempixel.com/400/200/food">\n      <div class="card-section">\n        <h5>{{product.name}}</h5>\n        <p>$ {{product.price.integer}}.{{product.price.decimal}}</p>\n        <button @click="addme" type="button" class="button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> ADD</button>\n      </div>\n    </div>\n  </div>',
   props: ['product'],
   mounted: function mounted() {
     $('.recommended').foundation();
   },
   methods: {
     deleteme: function deleteme() {
-      this.$emit('deleteme', this.item);
+      this.$emit('deleteme', this.product);
+    },
+    addme: function addme() {
+      this.$emit('addme', this.product);
     }
   }
 });
@@ -28145,7 +28156,7 @@ Vue.component('user-detail', {
 
 
 Vue.component('success', {
-  template: '\n  <transition name="fade">\n    <div v-if="message" class="success callout" data-closable="slide-out-right" style="position: absolute; top: 10vh; right: 1rem; z-index: 1;">\n      <button class="close-button small" aria-label="Dismiss alert" type="button" @click="messageRead">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <p style="margin-right: 2rem;"><b>Success:</b> {{message}}</p>\n    </div>\n  </transition>',
+  template: '\n  <transition name="fade">\n    <div v-if="message" class="success callout" data-closable="slide-out-right" style="position: absolute; top: 10vh; right: 1rem; z-index: 1;">\n      <button class="close-button small" aria-label="Dismiss alert" type="button" @click="messageRead">\n        <span aria-hidden="true">&times;</span>\n      </button>\n      <p style="margin-right: 2rem;"><i class="fa fa-check-circle" aria-hidden="true"></i> {{message}}</p>\n    </div>\n  </transition>',
   computed: {
     message: function message() {
       return this.$store.state.message;
@@ -36929,7 +36940,7 @@ var HTTP = __webpack_require__(49);
 
 
 var HistoryComponent = Vue.component('history', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          Historial\n          <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">\n            <a v-if="!page.first" class="float-left" @click="previousPage">\n              <i class="fa fa-chevron-left" aria-hidden="true"></i>\n            </a>\n            <span class="float-left"> Pagina {{page.number + 1}} de {{page.totalPages}} </span>\n            <a v-if="!page.last" class="float-left" @click="nextPage">\n              <i class="fa fa-chevron-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </h4>\n      </div>\n\n      <!-- Lists -->\n      <div v-if="page && page.content.length > 0" class="small-12 columns">\n        <ul class="accordion" data-allow-all-closed="true" id="history-lists" data-accordion>\n          <history-item v-for="list in page.content" :list="list"></history-item>\n        </ul>\n      </div>\n\n      <div v-else class="small-12 columns">\n        <h4 class="subheader">No hay listas en su historial.</h4>\n      </div>\n    </div>\n\n  </div>',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          Historial\n          <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">\n            <a v-if="!page.first" class="float-left" @click="previousPage">\n              <i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;\n            </a>\n            <span class="float-left"> Pagina {{page.number + 1}} de {{page.totalPages}} </span>\n            <a v-if="!page.last" class="float-left" @click="nextPage">\n              &nbsp; <i class="fa fa-chevron-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </h4>\n      </div>\n\n      <!-- Lists -->\n      <div v-if="page && page.content.length > 0" class="small-12 columns">\n        <ul class="accordion" data-allow-all-closed="true" id="history-lists" data-accordion>\n          <history-item v-for="list in page.content" :list="list"></history-item>\n        </ul>\n      </div>\n\n      <div v-else class="small-12 columns">\n        <h4 class="subheader">No hay listas en su historial.</h4>\n      </div>\n    </div>\n\n  </div>',
   data: function data() {
     return {
       page: null
@@ -37124,48 +37135,18 @@ module.exports = LockService;
 var HTTP = __webpack_require__(49);
 
 var ShoppingListComponent = Vue.component('shoppinglist', {
-  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{list.name}}\n          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>\n        </h4>\n      </div>\n\n      <!-- Search -->\n      <div class="search">\n        <!-- Search Box-->\n        <div class="small-12">\n          <div class="small-11 float-right columns">\n            <input type="search" v-model="query" @input="findProducts" placeholder="Search products...">\n          </div>\n          <div class="small-1 float-right">\n            <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin-top: 4px;"></i>\n          </div>\n        </div>\n        <!-- Results -->\n        <div v-if="results.length > 0 && query != \'\'" class="small-12" style="position: absolute; top: 6rem; z-index:1;">\n          <div class="small-11 float-right columns ">\n            <div class="card">\n              <div class="card-section">\n                <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>\n      <div class="small-12 columns recommended" data-equalizer data-equalize-on="medium">\n        <h5 class="subheader">\n          Recomendaciones\n        </h5>\n        <hr style="margin-top: 0;">\n        <product v-for="product in products" :product="product"></product>\n      </div>\n    </div>\n\n    <div v-if="register == null" class="bottom-sheet small-12 columns">\n      <div class="card-section flex">\n        <div class="small-6 medium-4 columns">\n          <p class="title">TOTAL</p>\n          <p class="stat">$ {{total}}</p>\n        </div>\n        <div class="small-6 medium-4 columns">\n          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>\n          <span class="float-right">&nbsp;</span>\n          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>\n        </div>\n      </div>\n    </div>\n    <countdown v-if="register" :register="register"></countdown>\n  </div>',
+  template: '\n  <div class="off-canvas-content" data-off-canvas-content>\n    <div class="row content">\n      <div class="small-12 columns">\n        <!-- Title -->\n        <h4 class="title">\n          <router-link to="/">\n            <i class="fa fa-chevron-left" aria-hidden="true"></i>\n          </router-link>\n          {{list.name}}\n          <button href="#" class="button hollow float-right" @click="saveList">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>\n        </h4>\n      </div>\n\n      <!-- Search -->\n      <div class="search">\n        <!-- Search Box-->\n        <div class="small-12">\n          <div class="small-12 float-right columns" style="display: flex;">\n          <i class="fa fa-search float-right" aria-hidden="true" style="font-size:1.4rem; margin: 4px 6px;"></i>\n            <input style="width: auto; flex: 2;" type="search" v-model="query" @input="findProducts" placeholder="Search products...">\n          </div>\n        </div>\n        <!-- Results -->\n        <div v-if="results.length > 0 && query != \'\'" class="small-12" style="position: absolute; top: 6rem; z-index:1;">\n          <div class="small-12 float-right columns ">\n            <div class="card">\n              <div class="card-section">\n                <result v-for="product in results" :product="product" :results="results" v-on:add="addListItem"></result>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <list-item v-for="item in list.items" :item="item" v-on:deleteme="deleteItem"></list-item>\n      <div v-if="products.length > 0" class="small-12 columns recommended" data-equalizer data-equalize-on="medium">\n        <h5 class="subheader">\n          Recomendaciones\n        </h5>\n        <hr style="margin-top: 0;">\n        <product v-for="product in products" :product="product" v-on:addme="addme"></product>\n      </div>\n    </div>\n\n    <div v-if="register == null" class="bottom-sheet small-12 columns">\n      <div class="card-section flex">\n        <div class="small-6 medium-4 columns">\n          <p class="title">TOTAL</p>\n          <p class="stat">$ {{total}}</p>\n        </div>\n        <div class="small-6 medium-4 columns">\n          <button class="button small alert float-right" style="margin: 0 0 0.5rem;" @click="checkout"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CHECKOUT</button>\n          <span class="float-right">&nbsp;</span>\n          <button class="button small float-right" style="margin: 0 0 0.5rem;"><i class="fa fa-truck" aria-hidden="true"></i> Envio a domicilio</button>\n        </div>\n      </div>\n    </div>\n    <countdown v-if="register" :register="register" v-on:register-ready="registerReady"></countdown>\n  </div>',
   data: function data() {
     return {
       query: '',
       results: [],
       register: null,
       waiting: false,
-      products: [{
-        "name": "Coca-Cola x2.25L",
-        "brand": "Coca-Cola",
-        "stock": 10000,
-        "price": {
-          "integer": 55,
-          "decimal": 25
-        },
-        "image": "",
-        "category": "Gaseosas",
-        "time": 1
-      }, {
-        "name": "Fernet Branca x 750cc",
-        "brand": "Branca",
-        "stock": 10000,
-        "price": {
-          "integer": 175,
-          "decimal": 25
-        },
-        "image": "",
-        "category": "Bebidas Alcoholicas",
-        "time": 2
-      }, {
-        "name": "Papitas Lays x300g",
-        "brand": "Lays",
-        "stock": 10000,
-        "price": {
-          "integer": 50,
-          "decimal": 75
-        },
-        "image": "http://lorempixel.com/200/200/food",
-        "category": "Snacks",
-        "time": 2
-      }]
+      products: []
     };
+  },
+  mounted: function mounted() {
+    this.getRecommendedProducts();
   },
   computed: {
     total: function total() {
@@ -37190,9 +37171,26 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
         _this.$store.commit("setError", error.response.data);
       });
     },
-    getRecommendedProducts: function getRecommendedProducts() {},
-    addListItem: function addListItem(product) {
+    addme: function addme(product) {
+      this.addListItem(product);
+      this.products = this.products.filter(function (elem) {
+        return elem != product;
+      });
+    },
+    getRecommendedProducts: function getRecommendedProducts() {
       var _this2 = this;
+
+      HTTP.get('shoppingList/recommended/' + this.list.id).then(function (response) {
+        _this2.products = response.data;
+      }).catch(function (error) {
+        _this2.$store.commit("setError", error.response.data);
+      });
+    },
+    registerReady: function registerReady() {
+      this.$store.commit("setMessage", "Ya puedes pasar a la caja registradora.");
+    },
+    addListItem: function addListItem(product) {
+      var _this3 = this;
 
       var item = {
         quantity: 1,
@@ -37200,11 +37198,12 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
       };
 
       HTTP.post('shoppingList/add-item/' + this.list.id, item).then(function (response) {
-        _this2.list.items.push(item);
-        _this2.results = [];
-        _this2.query = '';
+        _this3.list.items.push(item);
+        _this3.results = [];
+        _this3.query = '';
+        _this3.getRecommendedProducts();
       }).catch(function (error) {
-        _this2.$store.commit("setError", error.response.data);
+        _this3.$store.commit("setError", error.response.data);
       });
     },
     deleteItem: function deleteItem(item) {
@@ -37214,7 +37213,7 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
       this.saveList();
     },
     checkout: function checkout() {
-      var _this3 = this;
+      var _this4 = this;
 
       var request = {
         client: {
@@ -37223,27 +37222,20 @@ var ShoppingListComponent = Vue.component('shoppinglist', {
         shoppingList: this.list
       };
 
-      console.log(JSON.stringify(request));
-
       HTTP.post('checkout', request).then(function (response) {
-        _this3.register = response.data;
-        _this3.waiting = true;
+        _this4.register = response.data;
+        _this4.waiting = true;
       }).catch(function (error) {
-        _this3.$store.commit("setError", error.response.data);
+        _this4.$store.commit("setError", error.response.data);
       });
     },
     saveList: function saveList() {
-      var _this4 = this;
+      var _this5 = this;
 
-      var list2 = this.list;
-      list2.user = {
-        username: this.user.username
-      };
-
-      HTTP.post('shoppingList/update', list2).then(function (response) {
-        _this4.$store.commit("setMessage", response.data);
+      HTTP.post('shoppingList/update', this.list).then(function (response) {
+        _this5.$store.commit("setMessage", response.data);
       }).catch(function (error) {
-        _this4.$store.commit("setError", error.response.data);
+        _this5.$store.commit("setError", error.response.data);
       });
     }
   }

@@ -16,11 +16,11 @@ let HistoryComponent = Vue.component('history',{
           Historial
           <div v-if="page && page.totalPages > 0" class="float-right subheader" style="font-size: 1rem;">
             <a v-if="!page.first" class="float-left" @click="previousPage">
-              <i class="fa fa-chevron-left" aria-hidden="true"></i>
+              <i class="fa fa-chevron-left" aria-hidden="true"></i> &nbsp;
             </a>
             <span class="float-left"> Pagina {{page.number + 1}} de {{page.totalPages}} </span>
             <a v-if="!page.last" class="float-left" @click="nextPage">
-              <i class="fa fa-chevron-right" aria-hidden="true"></i>
+              &nbsp; <i class="fa fa-chevron-right" aria-hidden="true"></i>
             </a>
           </div>
         </h4>
